@@ -36,9 +36,9 @@
       display: inline-block;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       font-size: 0.8rem;
-      color: var(--purple);
-      background: var(--purple-soft);
-      border: 1px solid var(--border);
+      color: #6d28d9;
+      background: #d6c2fb;
+      border: 1px solid #cdb6f7;
       padding: 6px 12px;
       border-radius: 999px;
       margin-bottom: 22px;
@@ -77,15 +77,15 @@
     }
     .tab span {
       font-size: 0.78rem;
-      background: var(--purple-soft);
-      color: var(--purple);
+      background: #d6c2fb;
+      color: #6d28d9;
       padding: 2px 8px;
       border-radius: 999px;
       margin-left: 6px;
     }
     .tab:hover { color: var(--on-bg); }
     .tab.active { color: var(--on-bg); border-bottom-color: #c084fc; }
-    .tab.active span { background: var(--purple); color: #fff; }
+    .tab.active span { background: #7c3aed; color: #fff; }
     .tab-info { margin-top: 12px; color: var(--on-bg-muted); font-size: 0.92rem; }
     .controls {
       margin-top: 8px;
@@ -175,6 +175,18 @@
     }
     .badge.rep { background: var(--purple-deep); color: #fff; }
     .badge.oculto { background: #fff4d6; color: #8a5a00; }
+
+    /* Colores especiales de las tarjetas según la sala elegida */
+    .grid[data-tema="d"] { --surface: #2a2a2f; --text: #ff4d4d; --muted: #e88a8a; --border: #45454d; --purple-soft: #3a3a41; --purple: #ff4d4d; } /* Diablo */
+    .grid[data-tema="a"] { --surface: #dcf1ff; --text: #0b4fa8; --muted: #2f68b3; --border: #a6d8f5; --purple-soft: #bfe5fb; --purple: #0b4fa8; } /* Ángel */
+    .grid[data-tema="x"] { --surface: #303338; --text: #e3e5ea; --muted: #b4b7be; --border: #4a4d55; --purple-soft: #43464d; --purple: #e3e5ea; } /* Secreta */
+    .grid[data-tema="p"] { --surface: #0e1d4a; --text: #a8d0ff; --muted: #80b1ee; --border: #25386f; --purple-soft: #1b2d62; --purple: #a8d0ff; } /* Planetario */
+    .grid[data-tema="t"] { --surface: #ffd84a; --text: #111111; --muted: #2b2b2b; --border: #e3bb2a; --purple-soft: #f0c62e; --purple: #111111; } /* Tesoro */
+    .grid[data-tema="u"] { --surface: #c91f1f; --text: #0a0a0a; --muted: #2a0808; --border: #a31616; --purple-soft: #e04646; --purple: #0a0a0a; } /* Ultra secreta */
+    .grid[data-tema="s"] { --surface: #d8b894; --text: #7a5700; --muted: #6a4c10; --border: #c09a6e; --purple-soft: #c9a57a; --purple: #7a5700; } /* Tienda */
+    .card, .search, .chip { transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
+    .card { color: var(--text); }
+    .chip { background: var(--surface); }
     .empty { display: none; text-align: center; color: var(--on-bg-muted); padding: 48px 0; }
 
     footer {
@@ -303,6 +315,9 @@
       document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
       btn.classList.add("active");
       filtro = btn.dataset.filter;
+      const salasConColor = ["d", "a", "x", "p", "t", "u", "s"];
+      if (salasConColor.includes(filtro)) grid.dataset.tema = filtro;
+      else delete grid.dataset.tema;
       render();
     });
     render();
