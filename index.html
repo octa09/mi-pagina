@@ -187,6 +187,7 @@
     .card, .search, .chip { transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
     .card { color: var(--text); }
     .chip { background: var(--surface); }
+    .card-ancha { grid-column: 1 / -1; }
     .empty { display: none; text-align: center; color: var(--on-bg-muted); padding: 48px 0; }
 
     footer {
@@ -210,12 +211,15 @@
     <p class="intro">
       Una guía para descubrir qué hace cada ítem de <strong>The Binding of Isaac: Repentance</strong>.
       Aquí están los <strong>717 ítems de la colección</strong> (y 4 extra que no salen en ella), explicados de forma simple.
-      Busca por nombre, efecto o número, o filtra por tipo o por la sala donde aparecen.
+      Busca por nombre, efecto o número, o filtra por tipo o por la sala donde aparecen. También puedes ver todos los personajes.
     </p>
 
     <nav class="tabs" id="tabs">
       <button class="tab active" data-tab="coleccion">Objetos <span>717</span></button>
+      <button class="tab" data-tab="personajes">Personajes <span>34</span></button>
     </nav>
+
+    <section id="sec-objetos">
     <p class="tab-info" id="tab-info"></p>
 
     <div class="controls">
@@ -239,6 +243,20 @@
     <div class="count" id="count"></div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="empty">No encontré ese ítem 😢 Prueba con otro nombre.</div>
+    </section>
+
+    <section id="sec-personajes" hidden>
+      <p class="tab-info">Todos los personajes jugables de Repentance y sus versiones contaminadas.</p>
+      <div class="controls">
+        <div class="chips" id="chips-pj">
+          <button class="chip active" data-pj="normales">Normales</button>
+          <button class="chip" data-pj="tainted">Tainteds</button>
+          <button class="chip" data-pj="desbloqueo">Cómo desbloquearlos</button>
+        </div>
+      </div>
+      <div class="count" id="count-pj"></div>
+      <div class="grid" id="grid-pj"></div>
+    </section>
 
     <footer>
       <span>Guía no oficial, sin relación con los creadores del juego. Datos de referencia: Binding of Isaac Rebirth Wiki y External Item Descriptions.</span>
@@ -306,13 +324,62 @@
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
       btn.classList.add("active");
       pestaña = btn.dataset.tab;
-      render();
+      document.getElementById("sec-objetos").hidden = pestaña !== "coleccion";
+      document.getElementById("sec-personajes").hidden = pestaña !== "personajes";
     });
+
+    // ----- Personajes -----
+    const PERSONAJES = {
+      normales: [["Isaac", "El personaje inicial y el más equilibrado. Cuando lo desbloqueas, empieza con The D6."], ["Magdalene", "Tiene más vida pero es más lenta. Empieza con Yum Heart para curarse."], ["Cain", "Más daño y suerte, pero menos alcance. Empieza con Lucky Foot y una llave."], ["Judas", "Muy frágil pero con mucho daño. Empieza con The Book of Belial."], ["???", "Solo usa corazones de alma, nunca rojos. Empieza con The Poop."], ["Eve", "Poca vida, pero se vuelve muy fuerte cuando está a punto de morir."], ["Samson", "Gana daño cada vez que recibe un golpe durante el piso."], ["Azazel", "Vuela y, en vez de lágrimas, dispara un rayo de sangre corto."], ["Lazarus", "Al morir revive una vez como Lazarus Resucitado, más fuerte."], ["Eden", "Empieza cada partida con estadísticas e ítems al azar."], ["The Lost", "Muere de un solo golpe, pero vuela y sus lágrimas atraviesan obstáculos."], ["Lilith", "No dispara: ataca con un pequeño demonio que la acompaña."], ["Keeper", "Usa monedas como vida y dispara tres lágrimas a la vez."], ["Apollyon", "Empieza con Void, que absorbe ítems para usar sus efectos."], ["The Forgotten", "Ataca con un hueso y puede cambiar a su alma, que vuela."], ["Bethany", "Usa corazones de alma para cargar su libro, que crea fuegos aliados."], ["Jacob y Esau", "Dos hermanos que controlas al mismo tiempo."]],
+      tainted: [["Isaac contaminado", "Solo puede llevar unos pocos ítems pasivos y los pedestales alternan entre dos opciones."], ["Magdalene contaminada", "Sus corazones extra se van gastando, pero golpea de cerca y saca corazones a los enemigos."], ["Cain contaminado", "No puede tomar ítems: los deshace en materiales y crea los suyos con la Bag of Crafting."], ["Judas contaminado", "Con Dark Arts atraviesa enemigos y los daña a todos juntos."], ["??? contaminado", "Guarda cacas con Hold y las lanza como ataque."], ["Eve contaminada", "Con Sumptorium convierte su vida en coágulos que disparan por ella."], ["Samson contaminado", "Se llena de furia al pelear y con Berserk! ataca cuerpo a cuerpo."], ["Azazel contaminado", "Puede estornudar sangre que marca a los enemigos para dañarlos más."], ["Lazarus contaminado", "Con Flip cambia entre dos versiones de sí mismo, cada una con sus ítems."], ["Eden contaminado", "Cada vez que recibe daño, sus ítems y estadísticas cambian al azar."], ["The Lost contaminado", "Muere de un golpe y no tiene protección inicial; es el reto más difícil."], ["Lilith contaminada", "Lanza a su pequeño demonio con un cordón para atacar."], ["Keeper contaminado", "Los enemigos sueltan monedas que desaparecen rápido, y los ítems se compran."], ["Apollyon contaminado", "Con Abyss se traga ítems y los convierte en langostas que atacan."], ["The Forgotten contaminado", "Su alma lanza el cuerpo como arma y lo recupera con Recall."], ["Bethany contaminada", "Usa corazones rojos para cargar Lemegeton, que crea fuegos con efectos de ítems."], ["Jacob contaminado", "Un fantasma oscuro de Esau lo persigue y él debe aprovecharlo."]]
+    };
+    const DESBLOQUEO = [["Isaac", "Disponible desde el inicio."], ["Magdalene", "Tener 7 o más contenedores de corazón rojo al mismo tiempo."], ["Cain", "Tener 55 monedas al mismo tiempo."], ["Judas", "Vencer a Satanás por primera vez."], ["???", "Vencer a Mom's Heart 10 veces."], ["Eve", "No recoger ningún corazón durante dos pisos seguidos."], ["Samson", "Terminar dos pisos seguidos sin recibir daño."], ["Azazel", "Hacer tres tratos con el Diablo en una misma partida."], ["Lazarus", "Tener 4 o más corazones de alma o negros al mismo tiempo."], ["Eden", "Vencer a Mom's Heart por primera vez."], ["The Lost", "Morir en una sala de sacrificio llevando el trinket Missing Poster (el proceso para conseguirlo es largo)."], ["Lilith", "Vencer a Ultra Greed jugando con Azazel."], ["Keeper", "Donar 1000 monedas a la máquina de donaciones del modo Greed."], ["Apollyon", "Vencer a Mega Satan."], ["The Forgotten", "Juntar las dos mitades de la pala y cavar con Mom's Shovel en el montículo de tierra del Dark Room (es un proceso largo)."], ["Bethany", "Vencer a Mom's Heart jugando con Lazarus sin morir ni revivir en ningún momento."], ["Jacob y Esau", "Vencer a Mother, la jefa del final del piso Corpse."]];
+    const DESBLOQUEO_TAINTED = "Para desbloquear la versión contaminada de un personaje, juega con él, llega al piso Home y abre la puerta escondida de la casa usando Red Key, una Cracked Key o la Soul of Cain. Al entrar, desbloqueas su versión contaminada.";
+    let grupoPj = "normales";
+    function renderPj() {
+      if (grupoPj === "desbloqueo") {
+        document.getElementById("grid-pj").innerHTML = DESBLOQUEO.map(([nombre, como]) => `
+          <article class="card">
+            <div class="card-top"><span class="icon">🔓</span></div>
+            <h3>${nombre}</h3>
+            <p>${como}</p>
+          </article>`).join("") + `
+          <article class="card card-ancha">
+            <div class="card-top"><span class="icon">🌑</span></div>
+            <h3>Todos los tainteds</h3>
+            <p>${DESBLOQUEO_TAINTED}</p>
+          </article>`;
+        document.getElementById("count-pj").textContent = "Cómo desbloquear a los 17 personajes normales y a los tainteds";
+        return;
+      }
+      const lista = PERSONAJES[grupoPj];
+      const icono = grupoPj === "tainted" ? "🌑" : "🙂";
+      document.getElementById("grid-pj").innerHTML = lista.map(([nombre, desc], i) => `
+        <article class="card">
+          <div class="card-top">
+            <span class="icon">${icono}</span>
+            <span class="id">${i + 1}/${lista.length}</span>
+          </div>
+          <h3>${nombre}</h3>
+          <p>${desc}</p>
+          <div class="badges"><span class="badge">${grupoPj === "tainted" ? "contaminado" : "normal"}</span></div>
+        </article>`).join("");
+      document.getElementById("count-pj").textContent = `${lista.length} personajes`;
+    }
+    document.getElementById("chips-pj").addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      document.querySelectorAll("#chips-pj .chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      grupoPj = btn.dataset.pj;
+      renderPj();
+    });
+    renderPj();
     search.addEventListener("input", render);
     document.getElementById("chips").addEventListener("click", e => {
       const btn = e.target.closest(".chip");
       if (!btn) return;
-      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll("#chips .chip").forEach(c => c.classList.remove("active"));
       btn.classList.add("active");
       filtro = btn.dataset.filter;
       const salasConColor = ["d", "a", "x", "p", "t", "u", "s"];
