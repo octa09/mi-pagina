@@ -3,135 +3,309 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Octavio — aprendiendo a programar con IA</title>
-  <meta name="description" content="Página personal de Octavio: aprendiendo programación con IA y construyendo cosas." />
+  <title>Guía de ítems · The Binding of Isaac: Repentance — por Octavio</title>
+  <meta name="description" content="Guía de ítems de The Binding of Isaac: Repentance hecha por Octavio: qué hace cada ítem, de un vistazo." />
   <style>
     :root {
-      --bg: #f7f7fb;
-      --surface: #ffffff;
-      --border: #e2e4ee;
-      --text: #12141c;
-      --muted: #5a6275;
-      --accent: #0f9d6e;
-      --accent-2: #5b4bff;
+      --bg: #2a1052;
+      --on-bg: #f3ecff;
+      --on-bg-muted: #c9b8ef;
+      --surface: #e6d9ff;
+      --border: #cdb6f7;
+      --text: #1e1433;
+      --muted: #645a7d;
+      --purple: #6d28d9;
+      --purple-soft: #d6c2fb;
+      --purple-deep: #3b0f7a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
       min-height: 100vh;
       background-image:
-        radial-gradient(circle at 15% 10%, rgba(91,75,255,0.10), transparent 40%),
-        radial-gradient(circle at 85% 30%, rgba(15,157,110,0.08), transparent 40%);
+        radial-gradient(circle at 10% 0%, rgba(139,92,246,0.35), transparent 45%),
+        radial-gradient(circle at 95% 20%, rgba(192,132,252,0.22), transparent 40%);
+      background-attachment: fixed;
     }
-    main { max-width: 760px; margin: 0 auto; padding: 96px 24px 64px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 72px 24px 56px; }
+
     .tag {
       display: inline-block;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 0.85rem;
-      color: var(--accent);
+      font-size: 0.8rem;
+      color: var(--purple);
+      background: var(--purple-soft);
       border: 1px solid var(--border);
-      background: var(--surface);
       padding: 6px 12px;
       border-radius: 999px;
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
-    .tag::before { content: "● "; animation: blink 1.6s infinite; }
-    @keyframes blink { 50% { opacity: 0.2; } }
     h1 {
-      font-size: clamp(3rem, 10vw, 5.5rem);
-      line-height: 1;
-      letter-spacing: -0.04em;
+      font-size: clamp(2.4rem, 7vw, 4.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
       font-weight: 800;
-      background: linear-gradient(120deg, var(--text) 30%, var(--accent-2) 70%, var(--accent));
+      background: linear-gradient(120deg, #ffffff 20%, #e2d4ff 55%, #c084fc);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      max-width: 15ch;
     }
-    .bio {
-      margin-top: 24px;
-      font-size: 1.25rem;
+    .intro { margin-top: 18px; font-size: 1.15rem; color: var(--on-bg-muted); max-width: 52ch; }
+    .intro strong { color: var(--on-bg); }
+
+    .tabs {
+      margin-top: 40px;
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+      flex-wrap: wrap;
+    }
+    .tab {
+      font: inherit;
+      font-weight: 600;
+      padding: 12px 18px;
+      border: none;
+      background: none;
+      color: var(--on-bg-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab span {
+      font-size: 0.78rem;
+      background: var(--purple-soft);
+      color: var(--purple);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+    .tab:hover { color: var(--on-bg); }
+    .tab.active { color: var(--on-bg); border-bottom-color: #c084fc; }
+    .tab.active span { background: var(--purple); color: #fff; }
+    .tab-info { margin-top: 12px; color: var(--on-bg-muted); font-size: 0.92rem; }
+    .controls {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      padding: 14px 0;
+      background: linear-gradient(var(--bg) 80%, transparent);
+      z-index: 5;
+    }
+    .search {
+      flex: 1 1 260px;
+      font: inherit;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+    .search:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(109,40,217,0.15); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
       color: var(--muted);
-      max-width: 34ch;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
-    .bio strong { color: var(--text); font-weight: 600; }
-    section { margin-top: 88px; }
-    h2 {
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 24px;
-    }
-    h2 span { color: var(--accent); }
-    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .chip:hover { border-color: var(--purple); color: var(--purple); }
+    .chip.active { background: #a855f7; border-color: #a855f7; color: #fff; }
+
+    .count { margin: 10px 0 18px; font-size: 0.9rem; color: var(--on-bg-muted); font-family: ui-monospace, Menlo, monospace; }
+
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
     .card {
+      content-visibility: auto;
+      contain-intrinsic-size: 220px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 1px 3px rgba(18,20,28,0.05);
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(30,20,51,0.05);
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
     }
-    .card:hover { transform: translateY(-4px); border-color: var(--accent-2); box-shadow: 0 10px 24px rgba(91,75,255,0.12); }
-    .emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
-    .card h3 { font-size: 1.1rem; margin-bottom: 6px; }
-    .card p { color: var(--muted); font-size: 0.95rem; }
-    .status {
+    .card:hover { transform: translateY(-4px); border-color: #a78bfa; box-shadow: 0 12px 26px rgba(109,40,217,0.14); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .icon {
+      width: 44px; height: 44px;
+      display: grid; place-items: center;
+      font-size: 1.4rem;
+      border-radius: 12px;
+      background: var(--purple-soft);
+    }
+    .id { font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; color: var(--muted); }
+    .card h3 { font-size: 1.08rem; margin-bottom: 6px; }
+    .card p { color: var(--muted); font-size: 0.93rem; flex: 1; }
+    .badges { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--purple-soft);
+      color: var(--purple);
+    }
+    .badge.activo { background: #fde8f3; color: #b0246b; }
+    .subtitle {
+      margin-top: 10px;
       display: inline-block;
-      margin-top: 14px;
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 0.75rem;
-      color: var(--accent-2);
+      font-weight: 800;
+      letter-spacing: 0.32em;
+      font-size: clamp(0.95rem, 2.4vw, 1.25rem);
+      color: #fff;
+      background: linear-gradient(120deg, #7c3aed, #a855f7);
+      padding: 6px 14px 6px 18px;
+      border-radius: 8px;
     }
+    .badge.rep { background: var(--purple-deep); color: #fff; }
+    .badge.oculto { background: #fff4d6; color: #8a5a00; }
+    .empty { display: none; text-align: center; color: var(--on-bg-muted); padding: 48px 0; }
+
     footer {
-      margin-top: 96px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
+      margin-top: 80px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      color: var(--on-bg-muted);
       font-size: 0.85rem;
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
     }
   </style>
 </head>
 <body>
   <main>
-    <div class="tag">aprendiendo en público</div>
-    <h1>Hola, soy Octavio.</h1>
-    <p class="bio">
-      Tengo 17 años y estoy aprendiendo a <strong>programar con IA</strong>:
-      cada día escribo un poco más de código y entiendo un poco mejor cómo funciona.
+    <div class="tag">guía hecha por un fan</div>
+    <h1>Guía de ítems de The Binding of Isaac</h1>
+    <div class="subtitle">REPENTANCE</div>
+    <p class="intro">
+      Hola, soy <strong>Octavio</strong>. Estoy aprendiendo a programar con IA y armé esta guía
+      con los <strong>717 ítems de la colección de Repentance</strong> (y 4 extra que no salen en ella): qué hace cada uno, explicado simple. Busca por nombre, efecto o número, o filtra por tipo o sala.
     </p>
 
-    <section>
-      <h2><span>&gt;</span> Lo que voy a construir</h2>
-      <div class="grid">
-        <article class="card">
-          <span class="emoji">🌐</span>
-          <h3>Esta página</h3>
-          <p>Mi primer sitio, que iré mejorando a medida que aprenda HTML, CSS y JavaScript.</p>
-          <span class="status">// en progreso</span>
-        </article>
-        <article class="card">
-          <span class="emoji">🤖</span>
-          <h3>Un asistente propio</h3>
-          <p>Un chatbot pequeño que responda preguntas sobre algo que me guste.</p>
-          <span class="status">// próximamente</span>
-        </article>
-        <article class="card">
-          <span class="emoji">🎮</span>
-          <h3>Un juego en el navegador</h3>
-          <p>Algo simple y divertido para practicar lógica y animaciones.</p>
-          <span class="status">// próximamente</span>
-        </article>
-      </div>
-    </section>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="coleccion">Objetos <span>717</span></button>
+    </nav>
+    <p class="tab-info" id="tab-info"></p>
 
-    <footer>hecho por Octavio · 2026</footer>
+    <div class="controls">
+      <input class="search" id="search" type="search" placeholder="Busca por nombre, efecto o número… (ej: Brimstone, vuelo, 118)" aria-label="Buscar ítem" />
+      <div class="chips" id="chips">
+        <button class="chip active" data-filter="todos">Todos</button>
+        <button class="chip" data-filter="activo">Activos</button>
+        <button class="chip" data-filter="familiar">Familiares</button>
+        <button class="chip" data-filter="b">Jefes</button>
+        <button class="chip" data-filter="d">Diablo</button>
+        <button class="chip" data-filter="a">Ángel</button>
+        <button class="chip" data-filter="x">Secreta</button>
+        <button class="chip" data-filter="u">Ultra secreta</button>
+        <button class="chip" data-filter="t">Tesoro</button>
+        <button class="chip" data-filter="s">Tienda</button>
+        <button class="chip" data-filter="p">Planetario</button>
+        <button class="chip" data-filter="fuera">Fuera de la colección</button>
+      </div>
+    </div>
+
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">No encontré ese ítem 😢 Prueba con otro nombre.</div>
+
+    <footer>
+      <span>Hecho por Octavio · 2026</span>
+      <span>Guía no oficial, sin relación con los creadores del juego. Datos de referencia: Binding of Isaac Rebirth Wiki y External Item Descriptions.</span>
+    </footer>
   </main>
+
+  <script>
+    // Cada ítem: [número, nombre, activo (1) o pasivo (0), categoría, descripción, salas]
+    // Salas donde puede aparecer: t=Tesoro s=Tienda b=Jefe d=Diablo a=Ángel x=Secreta u=Ultra secreta p=Planetario
+    const DATA = [[1,"The Sad Onion",0,"lágrimas","Aumenta la cadencia de disparo.","t"],[2,"The Inner Eye",0,"lágrimas","Disparas tres lágrimas a la vez, pero más lento.","t"],[3,"Spoon Bender",0,"lágrimas","Tus lágrimas persiguen a los enemigos.","t"],[4,"Cricket's Head",0,"daño","Sube bastante el daño.","t"],[5,"My Reflection",0,"lágrimas","Más daño y alcance; las lágrimas vuelven como bumerán.","t"],[6,"Number One",0,"lágrimas","Disparas mucho más rápido, pero con menos alcance.","t"],[7,"Blood of the Martyr",0,"daño","+1 de daño.","ta"],[8,"Brother Bobby",0,"familiar","Un hermanito que dispara lágrimas normales a tu lado.","td"],[9,"Skatole",0,"utilidad","Las moscas enemigas se vuelven amigables.",""],[10,"Halo of Flies",0,"defensa","Dos moscas giran a tu alrededor y bloquean disparos.","t"],[11,"1up!",0,"defensa","Una vida extra: revives con la vida llena.","x"],[12,"Magic Mushroom",0,"daño","Sube casi todas las estadísticas, te cura y te agranda.","tu"],[13,"The Virus",0,"daño","Más velocidad; envenenas a los enemigos al tocarlos.","tu"],[14,"Roid Rage",0,"utilidad","Más velocidad y alcance.","tb"],[15,"<3",0,"defensa","+1 contenedor de corazón y vida llena.","tu"],[16,"Raw Liver",0,"defensa","+2 contenedores de corazón y vida llena.","x"],[17,"Skeleton Key",0,"utilidad","Te da 99 llaves.","tx"],[18,"A Dollar",0,"utilidad","Te da 100 monedas.",""],[19,"Boom!",0,"utilidad","Te da 10 bombas.","t"],[20,"Transcendence",0,"utilidad","Te permite volar.","x"],[21,"The Compass",0,"utilidad","Muestra en el mapa los íconos de las salas.","s"],[22,"Lunch",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[23,"Dinner",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[24,"Dessert",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[25,"Breakfast",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[26,"Rotten Meat",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[27,"Wooden Spoon",0,"utilidad","Aumenta la velocidad.","b"],[28,"The Belt",0,"utilidad","Aumenta la velocidad.","b"],[29,"Mom's Underwear",0,"utilidad","Más alcance y aparecen moscas azules aliadas.","b"],[30,"Mom's Heels",0,"daño","Más alcance; dañas a los enemigos al tocarlos.","bu"],[31,"Mom's Lipstick",0,"utilidad","Más alcance y aparece un corazón.","bu"],[32,"Wire Coat Hanger",0,"lágrimas","Aumenta la cadencia de disparo.","b"],[33,"The Bible",1,"utilidad","Vuelas durante la sala; mata al instante a Mamá y su corazón.","sa"],[34,"The Book of Belial",1,"daño","Más daño durante la sala y más chance de sala del Diablo.","d"],[35,"The Necronomicon",1,"daño","Daña a todos los enemigos de la sala.","dx"],[36,"The Poop",1,"utilidad","Pone una caca y empuja a los enemigos.","t"],[37,"Mr. Boom",1,"daño","Suelta una bomba grande bajo tus pies.","t"],[38,"Tammy's Head",1,"daño","Dispara 10 lágrimas en círculo a tu alrededor.","t"],[39,"Mom's Bra",1,"utilidad","Petrifica a todos los enemigos por unos segundos.","t"],[40,"Kamikaze!",1,"daño","Provoca una gran explosión donde estás.","tu"],[41,"Mom's Pad",1,"utilidad","Asusta a todos los enemigos y aparece una mosca azul.","t"],[42,"Bob's Rotten Head",1,"daño","Lanzas una cabeza que explota y deja veneno.","t"],[44,"Teleport!",1,"utilidad","Te teletransporta a una sala al azar.","t"],[45,"Yum Heart",1,"defensa","Cura un corazón rojo.","tu"],[46,"Lucky Foot",0,"utilidad","+1 suerte y mejores premios al apostar y limpiar salas.","t"],[47,"Doctor's Remote",1,"daño","Apuntas con una mira y cae un misil.","t"],[48,"Cupid's Arrow",0,"lágrimas","Tus lágrimas atraviesan a los enemigos.","t"],[49,"Shoop da Whoop!",1,"daño","Tu siguiente disparo es un rayo enorme.","tu"],[50,"Steven",0,"daño","+1 de daño.",""],[51,"Pentagram",0,"daño","+1 de daño y más chance de sala del Diablo o del Ángel.","bdu"],[52,"Dr. Fetus",0,"lágrimas","Disparas bombas en lugar de lágrimas.","t"],[53,"Magneto",0,"utilidad","Atraes las monedas, llaves y objetos del suelo.","tu"],[54,"Treasure Map",0,"utilidad","Muestra el mapa completo del piso.","s"],[55,"Mom's Eye",0,"lágrimas","A veces disparas otra lágrima hacia atrás.","t"],[56,"Lemon Mishap",1,"daño","Derrama un charco que daña a los enemigos.","t"],[57,"Distant Admiration",0,"familiar","Una mosca gira a tu alrededor y daña a los enemigos.","t"],[58,"Book of Shadows",1,"defensa","Te hace invencible por 10 segundos.","t"],[59,"The Book of Belial",1,"daño","Versión especial del Book of Belial que recibe Judas con Birthright: más daño en la sala.",""],[60,"The Ladder",0,"utilidad","Puedes cruzar huecos de una casilla.","s"],[62,"Charm of the Vampire",0,"defensa","Algo de daño y te curas al matar muchos enemigos.","t"],[63,"The Battery",0,"utilidad","Puedes sobrecargar tu ítem activo al doble.","s"],[64,"Steam Sale",0,"utilidad","Los objetos de la tienda cuestan la mitad.","s"],[65,"Anarchist Cookbook",1,"daño","Aparecen 6 bombas trampa en la sala.","t"],[66,"The Hourglass",1,"utilidad","Ralentiza a los enemigos por 8 segundos.","t"],[67,"Sister Maggy",0,"familiar","Una hermanita que dispara lágrimas fuertes.","tdu"],[68,"Technology",0,"lágrimas","Disparas un láser en lugar de lágrimas.","t"],[69,"Chocolate Milk",0,"lágrimas","Cargas tus lágrimas: más carga, más daño.","t"],[70,"Growth Hormones",0,"daño","Más velocidad y daño.","b"],[71,"Mini Mush",0,"utilidad","Más velocidad y alcance; te achica.","t"],[72,"Rosary",0,"defensa","Más cadencia y 3 corazones de alma.","tau"],[73,"Cube of Meat",0,"familiar","Un cubo de carne que crece mientras más juntas.","u"],[74,"A Quarter",0,"utilidad","Te da 25 monedas.","d"],[75,"PHD",0,"utilidad","Te cura, da una píldora y las píldoras malas se vuelven buenas.","ts"],[76,"X-Ray Vision",0,"utilidad","Abre todas las entradas a salas secretas.","t"],[77,"My Little Unicorn",1,"defensa","Corres más rápido y eres invencible por un momento.","t"],[78,"Book of Revelations",1,"utilidad","Un corazón de alma; cambia el jefe del piso por un jinete.","ta"],[79,"The Mark",0,"daño","Más daño y velocidad, y un corazón negro.","du"],[80,"The Pact",0,"daño","Más daño y cadencia, y dos corazones negros.","du"],[81,"Dead Cat",0,"defensa","9 vidas extra, pero te deja con un solo corazón.","d"],[82,"Lord of the Pit",0,"utilidad","Más velocidad y puedes volar.","du"],[83,"The Nail",1,"daño","Medio corazón negro y más daño durante la sala.","d"],[84,"We Need To Go Deeper!",1,"utilidad","Abre una trampilla al siguiente piso.","dx"],[85,"Deck of Cards",1,"utilidad","Te da una carta.","ts"],[86,"Monstro's Tooth",1,"daño","Monstro cae sobre un enemigo y lo aplasta.","t"],[87,"Loki's Horns",0,"lágrimas","A veces disparas en 4 direcciones.","t"],[88,"Little Chubby",0,"familiar","Un bichito que embiste en la dirección que disparas.","t"],[89,"Spider Bite",0,"lágrimas","A veces tus lágrimas ralentizan enemigos.","t"],[90,"The Small Rock",0,"daño","Más daño y cadencia, pero menos velocidad.",""],[91,"Spelunker Hat",0,"utilidad","Revela salas cercanas del mapa, incluso las secretas.","t"],[92,"Super Bandage",0,"defensa","Contenedor de corazón, curación y 2 corazones de alma.","tb"],[93,"The Gamekid",1,"defensa","Te vuelves invencible y dañas al tocar enemigos.","t"],[94,"Sack of Pennies",0,"familiar","Un saquito que suelta monedas cada 2 salas.","t"],[95,"Robo-Baby",0,"familiar","Un robot bebé que dispara láseres.","t"],[96,"Little C.H.A.D.",0,"familiar","Suelta medio corazón cada 3 salas.","tu"],[97,"The Book of Sin",1,"utilidad","Te da un recogible al azar.","td"],[98,"The Relic",0,"familiar","Suelta un corazón de alma cada pocas salas.","ta"],[99,"Little Gish",0,"familiar","Dispara lágrimas que ralentizan.","t"],[100,"Little Steven",0,"familiar","Dispara lágrimas teledirigidas.","t"],[101,"The Halo",0,"defensa","Más vida, velocidad y cadencia.","ta"],[102,"Mom's Bottle of Pills",1,"utilidad","Te da una píldora.","ts"],[103,"The Common Cold",0,"lágrimas","A veces tus lágrimas envenenan.","t"],[104,"The Parasite",0,"lágrimas","Tus lágrimas se dividen en dos al chocar.","t"],[105,"The D6",1,"utilidad","Cambia los ítems de la sala por otros al azar.","tu"],[106,"Mr. Mega",0,"daño","Tus bombas hacen mucho más daño y te da 5 bombas.","t"],[107,"The Pinking Shears",1,"daño","Tu cuerpo se separa y ataca solo durante la sala.","t"],[108,"The Wafer",0,"defensa","Casi todo el daño que recibes se reduce a medio corazón.","ta"],[109,"Money = Power",0,"daño","Más daño mientras más monedas tengas.","tdu"],[110,"Mom's Contacts",0,"lágrimas","Más alcance; a veces tus lágrimas petrifican.","tu"],[111,"The Bean",1,"daño","Te tiras un pedo que envenena a los enemigos cercanos.","t"],[112,"Guardian Angel",0,"familiar","Un ángel que gira a tu alrededor y bloquea disparos.","a"],[113,"Demon Baby",0,"familiar","Un bebé demonio que dispara a los enemigos cercanos.","td"],[114,"Mom's Knife",0,"lágrimas","Lanzas un cuchillo que puedes cargar. Muy fuerte.","td"],[115,"Ouija Board",0,"lágrimas","Más cadencia y tus lágrimas atraviesan paredes y rocas.","td"],[116,"9 Volt",0,"utilidad","Tu ítem activo se carga más rápido.","s"],[117,"Dead Bird",0,"familiar","Al recibir daño, aparece un pájaro que ataca.","t"],[118,"Brimstone",0,"lágrimas","Cargas y disparas un rayo de sangre enorme.","du"],[119,"Blood Bag",0,"defensa","Más vida y velocidad, y te cura mucho.","u"],[120,"Odd Mushroom (Thin)",0,"lágrimas","Más cadencia y velocidad, pero menos daño.","tx"],[121,"Odd Mushroom (Large)",0,"daño","Más vida, daño y alcance.","tx"],[122,"Whore of Babylon",0,"daño","Con poca vida, ganas mucho daño y velocidad.","du"],[123,"Monster Manual",1,"familiar","Te da un familiar al azar durante el piso.","td"],[124,"Dead Sea Scrolls",1,"utilidad","Activa el efecto de un ítem activo al azar.","ta"],[125,"Bobby-Bomb",0,"utilidad","Te da 5 bombas que persiguen a los enemigos.","t"],[126,"Razor Blade",1,"daño","Te hace daño, pero ganas daño durante la sala.","t"],[127,"Forget Me Now",1,"utilidad","Reinicia el piso completo con salas nuevas.","tdx"],[128,"Forever Alone",0,"familiar","Una mosca gira lejos de ti y daña enemigos.","t"],[129,"Bucket of Lard",0,"defensa","+2 contenedores de corazón, pero menos velocidad.","t"],[130,"A Pony",1,"utilidad","Te da velocidad y vuelo; al usarlo embistes.",""],[131,"Bomb Bag",0,"familiar","Suelta una bomba cada 3 salas.","t"],[132,"A Lump of Coal",0,"lágrimas","Tus lágrimas hacen más daño mientras más lejos viajan.",""],[133,"Guppy's Paw",1,"defensa","Cambia un contenedor de corazón por 3 corazones de alma.","d"],[134,"Guppy's Tail",0,"utilidad","Más cofres al limpiar salas, pero a veces nada.","d"],[135,"IV Bag",1,"utilidad","Pierdes medio corazón y ganas monedas.","u"],[136,"Best Friend",1,"utilidad","Crea un señuelo que atrae enemigos y explota.","t"],[137,"Remote Detonator",1,"utilidad","Tus bombas solo explotan cuando tú quieras.","tsu"],[138,"Stigmata",0,"defensa","Más vida y daño, y te cura.","ta"],[139,"Mom's Purse",0,"utilidad","Te da un trinket y puedes llevar dos.","s"],[140,"Bob's Curse",0,"daño","Tus bombas dejan veneno y eres inmune a él.","t"],[141,"Pageant Boy",0,"utilidad","Te da 7 monedas al azar.","b"],[142,"Scapular",0,"defensa","Al quedar con medio corazón, ganas un corazón de alma.","ta"],[143,"Speed Ball",0,"utilidad","Más velocidad y velocidad de disparo.","tb"],[144,"Bum Friend",0,"familiar","Un vagabundo que junta monedas y te da recogibles.","t"],[145,"Guppy's Head",1,"familiar","Crea varias moscas azules que atacan.","d"],[146,"Prayer Card",1,"defensa","Te da un corazón eterno.","ta"],[147,"Notched Axe",1,"utilidad","Sacas un hacha que rompe rocas y daña enemigos.","s"],[148,"Infestation",0,"familiar","Al recibir daño, aparecen moscas azules.","t"],[149,"Ipecac",0,"lágrimas","Lágrimas explosivas en arco con veneno, pero más lentas.","t"],[150,"Tough Love",0,"lágrimas","A veces disparas dientes con mucho daño.","t"],[151,"The Mulligan",0,"familiar","Tus lágrimas a veces crean moscas azules.","t"],[152,"Technology 2",0,"lágrimas","Un ojo dispara un láser continuo.","t"],[153,"Mutant Spider",0,"lágrimas","Disparas cuatro lágrimas a la vez, pero más lento.","t"],[154,"Chemical Peel",0,"daño","Más daño en las lágrimas del ojo izquierdo.","t"],[155,"The Peeper",0,"familiar","Un ojo flotante que daña al tocar enemigos.","t"],[156,"Habit",0,"utilidad","Recibir daño carga tu ítem activo.","sa"],[157,"Bloody Lust",0,"daño","Cada vez que te dañan, ganas daño durante el piso.","tdu"],[158,"Crystal Ball",1,"utilidad","Te da un corazón de alma, runa o carta y revela el mapa.",""],[159,"Spirit of the Night",0,"lágrimas","Vuelas y tus lágrimas atraviesan obstáculos.","du"],[160,"Crack the Sky",1,"daño","Caen rayos de luz sobre los enemigos.","t"],[161,"Ankh",0,"defensa","Al morir, revives como ??? (Blue Baby).","t"],[162,"Celtic Cross",0,"defensa","Al recibir daño, a veces te vuelves invencible un rato.","ta"],[163,"Ghost Baby",0,"familiar","Un fantasma que dispara lágrimas espectrales.","td"],[164,"The Candle",1,"daño","Lanzas una llama azul que quema y bloquea disparos.","s"],[165,"Cat-o-nine-tails",0,"daño","Más daño y velocidad de disparo.","b"],[166,"D20",1,"utilidad","Cambia los recogibles de la sala por otros.","tu"],[167,"Harlequin Baby",0,"familiar","Un bebé que dispara dos lágrimas en V.","tu"],[168,"Epic Fetus",0,"lágrimas","En vez de lágrimas, controlas una mira donde caen misiles.","tx"],[169,"Polyphemus",0,"daño","Lágrimas gigantes con muchísimo daño, pero más lentas.","t"],[170,"Daddy Longlegs",0,"familiar","Una pierna gigante pisa a los enemigos.","t"],[171,"Spider Butt",1,"utilidad","Ralentiza y daña a todos; los muertos dejan arañas azules.","t"],[172,"Sacrificial Dagger",0,"familiar","Una daga gira a tu alrededor y hace mucho daño.","td"],[173,"Mitre",0,"defensa","Algunos corazones rojos aparecen como corazones de alma.","ta"],[174,"Rainbow Baby",0,"familiar","Un bebé que dispara lágrimas con efectos al azar.","t"],[175,"Dad's Key",1,"utilidad","Abre todas las puertas de la sala, incluso las secretas.","t"],[176,"Stem Cells",0,"defensa","Más vida y te cura.","tbu"],[177,"Portable Slot",1,"utilidad","Una tragamonedas portátil: gastas monedas por premios.","su"],[178,"Holy Water",0,"familiar","Una botella que se lanza y deja un charco que petrifica.","ta"],[179,"Fate",0,"defensa","Un corazón eterno y puedes volar.",""],[180,"The Black Bean",0,"defensa","Al recibir daño, sueltas pedos venenosos.","t"],[181,"White Pony",1,"daño","Velocidad y vuelo; al usarlo embistes dejando rayos de luz.",""],[182,"Sacred Heart",0,"daño","Muchísimo daño, lágrimas teledirigidas y más vida.","au"],[183,"Tooth Picks",0,"lágrimas","Más cadencia y velocidad de disparo.","b"],[184,"Holy Grail",0,"defensa","Más vida, te cura y puedes volar.","a"],[185,"Dead Dove",0,"lágrimas","Vuelas y tus lágrimas atraviesan obstáculos.","a"],[186,"Blood Rights",1,"daño","Te hace daño, pero daña a todos los enemigos.","td"],[187,"Guppy's Hairball",0,"familiar","Una bola de pelo que giras y crece al matar.","d"],[188,"Abel",0,"familiar","Copia tus movimientos y dispara hacia ti.","t"],[189,"SMB Super Fan",0,"daño","Sube la cadencia, el daño y la velocidad.","t"],[190,"Pyro",0,"utilidad","Te da 99 bombas.","tx"],[191,"3 Dollar Bill",0,"lágrimas","Tus lágrimas cambian de efecto cada pocos segundos.","t"],[192,"Telepathy for Dummies",1,"lágrimas","Más alcance y lágrimas teledirigidas durante la sala.","t"],[193,"MEAT!",0,"daño","Algo de daño, más vida y te cura.","bu"],[194,"Magic 8 Ball",0,"utilidad","Te da una carta y más chance de Planetario.","b"],[195,"Mom's Coin Purse",0,"utilidad","Te da 4 píldoras.","sb"],[196,"Squeezy",0,"defensa","Más cadencia y 2 corazones de alma.","b"],[197,"Jesus Juice",0,"daño","Más daño y alcance.","ba"],[198,"Box",0,"utilidad","Te da un recogible de cada tipo.","b"],[199,"Mom's Key",0,"utilidad","Dos llaves y los cofres traen más cosas.","s"],[200,"Mom's Eyeshadow",0,"lágrimas","A veces tus lágrimas encantan a los enemigos.","t"],[201,"Iron Bar",0,"lágrimas","Algo de daño; a veces tus lágrimas aturden.","t"],[202,"Midas' Touch",0,"daño","Al tocar enemigos los vuelves de oro; dan monedas.","t"],[203,"Humbleing Bundle",0,"utilidad","Los recogibles a veces aparecen dobles.","s"],[204,"Fanny Pack",0,"utilidad","Al recibir daño, a veces aparece un recogible.","s"],[205,"Sharp Plug",0,"utilidad","Recarga tu ítem activo a cambio de corazones.","s"],[206,"Guillotine",0,"familiar","Más daño y cadencia; tu cabeza gira a tu alrededor.","t"],[207,"Ball of Bandages",0,"familiar","Una bola de vendas que crece mientras más juntas.",""],[208,"Champion Belt",0,"daño","Más daño, pero aparecen más enemigos campeones.","su"],[209,"Butt Bombs",0,"daño","Tus bombas aturden y dañan a toda la sala.","t"],[210,"Gnawed Leaf",0,"defensa","Si te quedas quieto, te vuelves invencible.","t"],[211,"Spiderbaby",0,"familiar","Al recibir daño, aparecen arañas azules.","t"],[212,"Guppy's Collar",0,"defensa","Al morir, a veces revives con medio corazón.","d"],[213,"Lost Contact",0,"lágrimas","Tus lágrimas destruyen los disparos enemigos.","tx"],[214,"Anemic",0,"daño","Al recibir daño, dejas un rastro de sangre que daña.","tu"],[215,"Goat Head",0,"utilidad","Siempre aparece sala del Diablo o del Ángel.","d"],[216,"Ceremonial Robes",0,"daño","Más daño y 3 corazones negros.","d"],[217,"Mom's Wig",0,"familiar","Te cura; a veces disparar crea arañas azules.","t"],[218,"Placenta",0,"defensa","Más vida y te curas poco a poco.","b"],[219,"Old Bandage",0,"defensa","Un contenedor vacío; al recibir daño a veces sueltas corazones.","b"],[220,"Sad Bombs",0,"daño","Tus bombas disparan lágrimas en círculo al explotar.","t"],[221,"Rubber Cement",0,"lágrimas","Tus lágrimas rebotan en enemigos y obstáculos.","t"],[222,"Anti-Gravity",0,"lágrimas","Tus lágrimas flotan mientras disparas y luego salen juntas.","t"],[223,"Pyromaniac",0,"defensa","Inmune a explosiones y fuego; las explosiones te curan.","t"],[224,"Cricket's Body",0,"lágrimas","Tus lágrimas se dividen en 4 al chocar.","t"],[225,"Gimpy",0,"defensa","A veces ganas corazones de alma al recibir daño.","td"],[226,"Black Lotus",0,"defensa","Más vida, te cura y te da un corazón de alma.","x"],[227,"Piggy Bank",0,"utilidad","Al recibir daño, sueltas monedas.","ts"],[228,"Mom's Perfume",0,"lágrimas","Más cadencia; a veces tus lágrimas asustan.","t"],[229,"Monstro's Lung",0,"lágrimas","Cargas y disparas una ráfaga de lágrimas como escopeta.","t"],[230,"Abaddon",0,"daño","Más daño y velocidad; tus corazones se vuelven negros.","du"],[231,"Ball of Tar",0,"lágrimas","A veces ralentizas enemigos y dejas un rastro pegajoso.","t"],[232,"Stop Watch",0,"utilidad","Todos los enemigos se mueven más lento.","s"],[233,"Tiny Planet",0,"lágrimas","Tus lágrimas giran a tu alrededor y atraviesan obstáculos.","t"],[234,"Infestation 2",0,"familiar","Al matar enemigos, aparecen arañas azules.","t"],[236,"E. Coli",0,"utilidad","Al tocar enemigos, los conviertes en caca.","t"],[237,"Death's Touch",0,"daño","Más daño y lágrimas grandes, pero algo más lentas.","td"],[238,"Key Piece 1",0,"utilidad","Junta las dos partes de la llave para abrir una puerta dorada.",""],[239,"Key Piece 2",0,"utilidad","Junta las dos partes de la llave para abrir una puerta dorada.",""],[240,"Experimental Treatment",0,"utilidad","Sube 4 estadísticas al azar y baja 2.","tb"],[241,"Contract from Below",0,"utilidad","Dobla los premios al limpiar salas, pero a veces no hay.","d"],[242,"Infamy",0,"defensa","A veces bloqueas los disparos enemigos.","tx"],[243,"Trinity Shield",0,"defensa","Un escudo bloquea disparos desde donde apuntas.","a"],[244,"Tech.5",0,"lágrimas","A veces disparas láseres además de lágrimas.","t"],[245,"20/20",0,"lágrimas","Disparas dos lágrimas a la vez.","t"],[246,"Blue Map",0,"utilidad","Muestra las salas secretas en el mapa.","s"],[247,"BFFS!",0,"familiar","Tus familiares hacen el doble de daño.","su"],[248,"Hive Mind",0,"familiar","Moscas y arañas aliadas se vuelven más fuertes.","s"],[249,"There's Options",0,"utilidad","Tras un jefe, eliges entre 2 ítems.","s"],[250,"Bogo Bombs",0,"utilidad","Todas las bombas que aparecen son dobles.","s"],[251,"Starter Deck",0,"utilidad","Puedes llevar 2 cartas y las píldoras se vuelven cartas.","s"],[252,"Little Baggy",0,"utilidad","Puedes llevar 2 píldoras y las cartas se vuelven píldoras.","s"],[253,"Magic Scab",0,"defensa","Más vida, +1 suerte y te cura.","bu"],[254,"Blood Clot",0,"daño","Más daño y alcance en el ojo izquierdo.","bu"],[255,"Screw",0,"lágrimas","Más cadencia y velocidad de disparo.","b"],[256,"Hot Bombs",0,"daño","Tus bombas queman y dejan fuego.","t"],[257,"Fire Mind",0,"lágrimas","Tus lágrimas queman y a veces explotan.","t"],[258,"Missing No.",0,"utilidad","Cambia todos tus ítems al azar en cada piso.","x"],[259,"Dark Matter",0,"daño","Más daño; a veces tus lágrimas asustan.","d"],[260,"Black Candle",0,"utilidad","Inmune a maldiciones y un corazón negro.","s"],[261,"Proptosis",0,"lágrimas","Mucho daño de cerca, pero las lágrimas se debilitan.","tu"],[262,"Missing Page 2",0,"daño","Con poca vida, dañas a toda la sala al recibir golpes.","dx"],[263,"Clear Rune",1,"utilidad","Usa el efecto de tu runa sin gastarla.","x"],[264,"Smart Fly",0,"familiar","Una mosca que ataca cuando te dañan.","t"],[265,"Dry Baby",0,"familiar","Al recibir disparos, a veces daña a toda la sala.","t"],[266,"Juicy Sack",0,"familiar","Deja un charco pegajoso y crea arañas aliadas.","t"],[267,"Robo-Baby 2.0",0,"familiar","Un robot que dispara láseres y se mueve contigo.","t"],[268,"Rotten Baby",0,"familiar","Crea moscas azules cuando disparas.","td"],[269,"Headless Baby",0,"familiar","Deja un charco que daña a los enemigos.","td"],[270,"Leech",0,"familiar","Persigue enemigos y te cura al matarlos.","t"],[271,"Mystery Sack",0,"familiar","Suelta un recogible al azar cada pocas salas.","tx"],[272,"BBF",0,"familiar","Una mosca amiga que explota (¡cuidado, te daña!).","t"],[273,"Bob's Brain",0,"familiar","Se lanza contra los enemigos y explota con veneno.","t"],[274,"Best Bud",0,"familiar","Al recibir daño, aparece un protector que gira a tu lado.","t"],[275,"Lil Brimstone",0,"familiar","Un mini familiar que carga y dispara rayos de sangre.","td"],[276,"Isaac's Heart",0,"defensa","Eres invencible, pero un corazón que te sigue es tu punto débil.","tu"],[277,"Lil Haunt",0,"familiar","Un fantasmita que persigue y asusta enemigos.","t"],[278,"Dark Bum",0,"familiar","Junta corazones rojos y te da otras recompensas.","td"],[279,"Big Fan",0,"familiar","Una mosca gigante que gira a tu alrededor.","t"],[280,"Sissy Longlegs",0,"familiar","Crea arañas azules y encanta a los enemigos.","t"],[281,"Punching Bag",0,"familiar","Un señuelo que atrae a los enemigos.","t"],[282,"How to Jump",1,"utilidad","Te permite saltar huecos y obstáculos.","t"],[283,"D100",1,"utilidad","Cambia al azar todo: tus ítems, estadísticas y la sala.","t"],[284,"D4",1,"utilidad","Cambia todos tus ítems pasivos al azar.","t"],[285,"D10",1,"utilidad","Convierte a los enemigos en versiones más débiles.","t"],[286,"Blank Card",1,"utilidad","Usa el efecto de tu carta sin gastarla.","sx"],[287,"Book of Secrets",1,"utilidad","Revela secretos del piso, como el mapa o salas ocultas.","tx"],[288,"Box of Spiders",1,"familiar","Crea varias arañas azules.","t"],[289,"Red Candle",1,"daño","Lanzas una llama roja que quema y bloquea disparos.","su"],[290,"The Jar",1,"defensa","Guarda corazones rojos sobrantes para usarlos después.","s"],[291,"Flush!",1,"utilidad","Convierte a los enemigos normales en caca y llena la sala de agua.","t"],[292,"Satanic Bible",1,"utilidad","Un corazón negro; antes de un jefe, su premio será un trato del Diablo.","td"],[293,"Head of Krampus",1,"daño","Disparas rayos de sangre en 4 direcciones.",""],[294,"Butter Bean",1,"defensa","Empuja lejos a los enemigos y disparos cercanos.","t"],[295,"Magic Fingers",1,"daño","Gastas una moneda para dañar a todos los enemigos.","ts"],[296,"Converter",1,"defensa","Convierte un corazón de alma o negro en contenedor.","s"],[297,"Pandora's Box",1,"utilidad","Da recompensas según el piso en que lo uses.","s"],[298,"Unicorn Stump",1,"defensa","Corres más rápido y eres invencible por un momento.","t"],[299,"Taurus",0,"defensa","En combate ganas velocidad hasta volverte invencible.","t"],[300,"Aries",0,"daño","A gran velocidad no te dañan al tocar y dañas a los enemigos.","t"],[301,"Cancer",0,"defensa","3 corazones de alma; tras un golpe, el resto te dañan menos.","t"],[302,"Leo",0,"utilidad","Te agrandas y rompes rocas al caminar.","t"],[303,"Virgo",0,"defensa","A veces te vuelves invencible al recibir daño.","t"],[304,"Libra",0,"utilidad","Equilibra tus estadísticas y te da recursos.","t"],[305,"Scorpio",0,"lágrimas","Tus lágrimas envenenan.","t"],[306,"Sagittarius",0,"lágrimas","Más velocidad y lágrimas que atraviesan enemigos.","t"],[307,"Capricorn",0,"utilidad","Sube un poco todas tus estadísticas.","t"],[308,"Aquarius",0,"daño","Dejas un rastro que daña a los enemigos.","t"],[309,"Pisces",0,"lágrimas","Más cadencia y lágrimas que empujan más.","t"],[310,"Eve's Mascara",0,"daño","Doble daño, pero disparas más lento.","t"],[311,"Judas' Shadow",0,"defensa","Al morir, revives como Judas Oscuro con doble daño.","d"],[312,"Maggy's Bow",0,"defensa","Más vida y los corazones rojos curan el doble.","t"],[313,"Holy Mantle",0,"defensa","Un escudo que bloquea el primer golpe de cada sala.","ta"],[314,"Thunder Thighs",0,"defensa","Más vida, menos velocidad; rompes rocas al empujarlas.","t"],[315,"Strange Attractor",0,"lágrimas","Tus lágrimas atraen enemigos y objetos.","t"],[316,"Cursed Eye",0,"lágrimas","Cargas una ráfaga de 5 lágrimas.","tx"],[317,"Mysterious Liquid",0,"lágrimas","Tus lágrimas dejan charcos que dañan.","t"],[318,"Gemini",0,"familiar","Un gemelo que pelea cuerpo a cuerpo.","t"],[319,"Cain's Other Eye",0,"familiar","Un ojo que dispara en direcciones al azar.","t"],[320,"???'s Only Friend",0,"familiar","Una mosca que controlas y daña a los enemigos.","t"],[321,"Samson's Chains",0,"familiar","Una bola con cadena que arrastras y rompe rocas.","tx"],[322,"Mongo Baby",0,"familiar","Copia los disparos de tus otros bebés familiares.","t"],[323,"Isaac's Tears",1,"daño","Dispara 8 lágrimas en todas direcciones.","t"],[324,"Undefined",1,"utilidad","Te lleva a una sala especial o secreta.","t"],[325,"Scissors",1,"daño","Tu cabeza se queda quieta y tu cuerpo ataca aparte.","t"],[326,"Breath of Life",1,"defensa","Te vuelves invencible un momento y caen rayos de luz.","a"],[327,"The Polaroid",0,"defensa","Con medio corazón, recibir daño te hace invencible.",""],[328,"The Negative",0,"daño","Con poca vida, recibir daño daña a toda la sala.",""],[329,"The Ludovico Technique",0,"lágrimas","Controlas una sola lágrima gigante.","t"],[330,"Soy Milk",0,"lágrimas","Disparas rapidísimo, pero cada lágrima hace poco daño.","t"],[331,"Godhead",0,"lágrimas","Tus lágrimas persiguen enemigos y tienen un aura que daña.","a"],[332,"Lazarus' Rags",0,"defensa","Al morir, revives como Lázaro resucitado.","ta"],[333,"The Mind",0,"utilidad","Revela el mapa completo en cada piso.","ta"],[334,"The Body",0,"defensa","+3 contenedores de corazón.","tau"],[335,"The Soul",0,"defensa","2 corazones de alma y un aura que aleja enemigos.","ta"],[336,"Dead Onion",0,"lágrimas","Lágrimas más grandes y espectrales, pero menos alcance.","t"],[337,"Broken Watch",0,"utilidad","Algunas salas se vuelven lentas (o rápidas).","s"],[338,"The Boomerang",1,"utilidad","Lanzas un bumerán que petrifica y trae objetos.","s"],[339,"Safety Pin",0,"daño","Más alcance, velocidad de disparo y un corazón negro.","b"],[340,"Caffeine Pill",0,"utilidad","Más velocidad, te achica y te da una píldora.","b"],[341,"Torn Photo",0,"lágrimas","Más cadencia y velocidad de disparo.","b"],[342,"Blue Cap",0,"defensa","Más vida y cadencia.","b"],[343,"Latch Key",0,"utilidad","+1 suerte, un corazón de alma y 2 llaves.","b"],[344,"Match Book",0,"utilidad","Un corazón negro, 3 bombas y un trinket.","b"],[345,"Synthoil",0,"daño","Más daño y alcance.","b"],[346,"A Snack",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[347,"Diplopia",1,"utilidad","Duplica los ítems y recogibles de la sala.","s"],[348,"Placebo",1,"utilidad","Usa el efecto de tu píldora sin gastarla.","sx"],[349,"Wooden Nickel",1,"utilidad","Puede darte una moneda.","s"],[350,"Toxic Shock",0,"daño","Envenenas a todos al entrar a una sala.","t"],[351,"Mega Bean",1,"daño","Petrifica a todos y lanza una ola de rocas.","t"],[352,"Glass Cannon",1,"daño","Disparas una lágrima enorme, pero recibes más daño.","t"],[353,"Bomber Boy",0,"daño","Tus bombas explotan en forma de cruz.","t"],[354,"Crack Jacks",0,"defensa","Más vida, te cura y te da un trinket.","b"],[355,"Mom's Pearls",0,"defensa","Más alcance, +1 suerte y un corazón de alma.","b"],[356,"Car Battery",0,"utilidad","Tu ítem activo se activa dos veces.","s"],[357,"Box of Friends",1,"familiar","Duplica tus familiares durante la sala.","s"],[358,"The Wiz",0,"lágrimas","Disparas dos lágrimas en diagonal que atraviesan obstáculos.","t"],[359,"8 Inch Nails",0,"daño","Más daño y más empuje.","t"],[360,"Incubus",0,"familiar","Un demonio que dispara igual que tú.","d"],[361,"Fate's Reward",0,"familiar","Dispara lágrimas con tu mismo daño y efectos.","t"],[362,"Lil Chest",0,"familiar","Un cofrecito que suelta recogibles.","t"],[363,"Sworn Protector",0,"familiar","Gira a tu alrededor, daña y atrae disparos enemigos.","a"],[364,"Friend Zone",0,"familiar","Una mosca que gira a tu alrededor y daña.","t"],[365,"Lost Fly",0,"familiar","Una mosca que recorre los bordes y distrae enemigos.","t"],[366,"Scatter Bombs",0,"daño","Tus bombas se dividen en varias bombitas.","t"],[367,"Sticky Bombs",0,"daño","Tus bombas se pegan a los enemigos.","t"],[368,"Epiphora",0,"lágrimas","Si disparas siempre hacia un lado, disparas cada vez más rápido.","t"],[369,"Continuum",0,"lágrimas","Tus lágrimas cruzan la pantalla de un lado al otro.","t"],[370,"Mr. Dolly",0,"lágrimas","Más cadencia y alcance, y aparecen corazones.","b"],[371,"Curse of the Tower",0,"daño","Al recibir daño, aparecen bombas trampa.","t"],[372,"Charged Baby",0,"familiar","Te da baterías y carga tu ítem activo.","s"],[373,"Dead Eye",0,"daño","Acertar seguido te da cada vez más daño.","tu"],[374,"Holy Light",0,"lágrimas","A veces tus lágrimas invocan rayos de luz.","ta"],[375,"Host Hat",0,"defensa","Inmune a explosiones y a veces reflejas disparos.","t"],[376,"Restock",0,"utilidad","Lo que compras en la tienda se repone al instante.","s"],[377,"Bursting Sack",0,"utilidad","Las arañas enemigas dejan de atacarte.","t"],[378,"No. 2",0,"daño","Si mantienes el disparo, sueltas una bomba de caca.","t"],[379,"Pupula Duplex",0,"lágrimas","Lágrimas gigantes que atraviesan obstáculos.","t"],[380,"Pay To Play",0,"utilidad","Abres puertas y cofres con monedas en vez de llaves.","s"],[381,"Eden's Blessing",0,"utilidad","Más cadencia y un ítem extra en tu próxima partida.","t"],[382,"Friendly Ball",1,"utilidad","Captura un enemigo y luego suéltalo como aliado.","t"],[383,"Tear Detonator",1,"lágrimas","Divide tus lágrimas en pantalla en 6 cada una.","s"],[384,"Lil Gurdy",0,"familiar","Lo cargas y rebota por la sala dañando enemigos.","t"],[385,"Bumbo",0,"familiar","Junta monedas y se vuelve más fuerte.","t"],[386,"D12",1,"utilidad","Cambia los obstáculos de la sala por otros.","t"],[387,"Censer",0,"utilidad","Un familiar con un aura que ralentiza todo.","a"],[388,"Key Bum",0,"familiar","Junta llaves y te da cofres.","tx"],[389,"Rune Bag",0,"familiar","Te da runas cada pocas salas.","tx"],[390,"Seraphim",0,"familiar","Un ángel que dispara lágrimas teledirigidas.","ta"],[391,"Betrayal",0,"utilidad","Los enemigos se pelean entre ellos.","td"],[392,"Zodiac",0,"utilidad","Te da un efecto del zodiaco al azar en cada piso.","t"],[393,"Serpent's Kiss",0,"lágrimas","A veces envenenas; los enemigos dejan corazones negros.","t"],[394,"Marked",0,"lágrimas","Disparas solo hacia una marca roja que mueves.","tu"],[395,"Tech X",0,"lágrimas","Cargas y disparas anillos de láser.","t"],[396,"Ventricle Razor",1,"utilidad","Crea dos portales para viajar entre salas.","s"],[397,"Tractor Beam",0,"lágrimas","Más cadencia y alcance; disparas en línea recta.","t"],[398,"God's Flesh",0,"lágrimas","A veces encoges a los enemigos para aplastarlos.","t"],[399,"Maw of the Void",0,"lágrimas","Tras disparar un rato, sueltas un anillo negro que daña.","du"],[400,"Spear of Destiny",0,"daño","Llevas una lanza que daña y asusta a los enemigos.","a"],[401,"Explosivo",0,"lágrimas","A veces tus lágrimas se pegan y explotan.","t"],[402,"Chaos",0,"utilidad","Todos los ítems vienen de cualquier lugar al azar.","sx"],[403,"Spider Mod",0,"utilidad","Muestra la vida de los enemigos y aplica efectos al azar.","s"],[404,"Farting Baby",0,"familiar","Bloquea disparos y a veces suelta pedos.","t"],[405,"GB Bug",0,"familiar","Un bicho que lanzas y cambia enemigos y objetos.","tx"],[406,"D8",1,"utilidad","Multiplica tus estadísticas por un valor al azar.","t"],[407,"Purity",0,"utilidad","Un aura sube una estadística hasta que te dañan.","ta"],[408,"Athame",0,"daño","Los enemigos muertos a veces dejan un anillo que daña.","d"],[409,"Empty Vessel",0,"defensa","2 corazones negros; vuelas si no tienes corazones rojos.","d"],[410,"Evil Eye",0,"lágrimas","A veces disparas un ojo que dispara por ti.","t"],[411,"Lusty Blood",0,"daño","Ganas daño por cada enemigo que matas en la sala.","tdu"],[412,"Cambion Conception",0,"familiar","Recibir daño muchas veces te da familiares demonio.","du"],[413,"Immaculate Conception",0,"familiar","Juntar corazones te da familiares ángeles.","a"],[414,"More Options",0,"utilidad","Eliges entre 2 ítems en las salas del tesoro.","s"],[415,"Crown Of Light",0,"daño","Con la vida llena, haces doble daño.","a"],[416,"Deep Pockets",0,"utilidad","Más monedas al limpiar salas y puedes tener 999.","s"],[417,"Succubus",0,"familiar","Rebota con un aura que daña y te da más daño.","d"],[418,"Fruit Cake",0,"lágrimas","Cada lágrima tiene un efecto distinto.","t"],[419,"Teleport 2.0",1,"utilidad","Te teletransporta a una sala que no has limpiado.","t"],[420,"Black Powder",0,"daño","Caminar en círculo dibuja un pentagrama que daña.","d"],[421,"Kidney Bean",1,"utilidad","Encanta a los enemigos cercanos.","tu"],[422,"Glowing Hourglass",1,"utilidad","Retrocede el tiempo a la sala anterior.","ts"],[423,"Circle of Protection",0,"daño","Un halo te rodea, daña y refleja disparos.","a"],[424,"Sack Head",0,"utilidad","Algunos recogibles se vuelven sacos.","sx"],[425,"Night Light",0,"utilidad","Una luz frente a ti ralentiza a los enemigos.","s"],[426,"Obsessed Fan",0,"familiar","Te sigue con retraso y daña al tocar enemigos.","t"],[427,"Mine Crafter",1,"daño","Crea un barril de TNT que puedes detonar.","t"],[428,"PJs",0,"defensa","Vida llena y 4 corazones de alma.","b"],[429,"Head of the Keeper",0,"utilidad","Al golpear enemigos, a veces sueltan monedas.",""],[430,"Papa Fly",0,"familiar","Te sigue y dispara a los enemigos cercanos.","t"],[431,"Multidimensional Baby",0,"familiar","Duplica las lágrimas que lo atraviesan.","td"],[432,"Glitter Bombs",0,"daño","Tus bombas sueltan recogibles y encantan.","t"],[433,"My Shadow",0,"familiar","Tu sombra crea aliados cuando la tocan.","d"],[434,"Jar of Flies",1,"familiar","Guarda moscas al matar enemigos y las suelta.","s"],[435,"Lil Loki",0,"familiar","Dispara 4 lágrimas en cruz.","tu"],[436,"Milk!",0,"lágrimas","Al recibir daño, disparas más rápido en la sala.","t"],[437,"D7",1,"utilidad","Reinicia la sala para ganar el premio otra vez.","t"],[438,"Binky",0,"lágrimas","Más cadencia, te achica y un corazón de alma.","b"],[439,"Mom's Box",0,"utilidad","Te da un trinket, +1 suerte y potencia tus trinkets.","s"],[440,"Kidney Stone",0,"lágrimas","A veces cargas un ataque que lanza muchas lágrimas.","t"],[441,"Mega Blast",1,"daño","Disparas un rayo enorme durante 15 segundos.","d"],[442,"Dark Prince's Crown",0,"lágrimas","Con un corazón rojo, disparas más rápido y lejos.","d"],[443,"Apple!",0,"lágrimas","Más cadencia; a veces disparas cuchillas con mucho daño.","tu"],[444,"Lead Pencil",0,"lágrimas","Cada 15 lágrimas disparas un racimo de lágrimas.","t"],[445,"Dog Tooth",0,"utilidad","Algo de daño y velocidad; te avisa de salas secretas.","t"],[446,"Dead Tooth",0,"daño","Al disparar, un aura verde envenena a los enemigos.","t"],[447,"Linger Bean",0,"daño","Disparar sin parar crea una nube que daña.","t"],[448,"Shard of Glass",0,"defensa","Al recibir daño, a veces sueltas un corazón y sangras lágrimas.","t"],[449,"Metal Plate",0,"defensa","Un corazón de alma y a veces reflejas disparos.","t"],[450,"Eye of Greed",0,"lágrimas","Cada 20 lágrimas disparas una moneda que vuelve de oro a los enemigos.","x"],[451,"Tarot Cloth",0,"utilidad","Te da una carta y las cartas de tarot son más fuertes.","s"],[452,"Varicose Veins",0,"daño","Al recibir daño, disparas lágrimas en círculo.","tu"],[453,"Compound Fracture",0,"lágrimas","Tus lágrimas se rompen en astillas de hueso.","t"],[454,"Polydactyly",0,"utilidad","Puedes llevar 2 runas, cartas o píldoras.","t"],[455,"Dad's Lost Coin",0,"utilidad","Más alcance y una moneda de la suerte.","b"],[456,"Midnight Snack",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[457,"Cone Head",0,"defensa","Un corazón de alma y a veces ignoras el daño.","t"],[458,"Belly Button",0,"utilidad","Puedes llevar 2 trinkets y te da uno.","t"],[459,"Sinus Infection",0,"lágrimas","A veces disparas mocos que se pegan y dañan.","t"],[460,"Glaucoma",0,"lágrimas","A veces tus lágrimas aturden; oscurece la pantalla.","t"],[461,"Parasitoid",0,"lágrimas","A veces disparas huevos que crean arañas o moscas.","t"],[462,"Eye of Belial",0,"lágrimas","Tus lágrimas atraviesan y se vuelven más fuertes al golpear.","du"],[463,"Sulfuric Acid",0,"lágrimas","Algo de daño; tus lágrimas pueden romper rocas.","t"],[464,"Glyph of Balance",0,"defensa","2 corazones de alma y los premios son lo que más necesitas.","a"],[465,"Analog Stick",0,"lágrimas","Puedes disparar en cualquier dirección.","t"],[466,"Contagion",0,"daño","Los enemigos muertos explotan y envenenan a otros.","tu"],[467,"Finger!",0,"familiar","Un dedo que daña sin parar hacia donde apunta.","t"],[468,"Shade",0,"familiar","Una sombra te sigue y daña; luego se une a ti.","d"],[469,"Depression",0,"familiar","Una nube triste deja un rastro y llama rayos de luz.","t"],[470,"Hushy",0,"familiar","Rebota por la sala dañando enemigos.","t"],[471,"Lil Monstro",0,"familiar","Carga y dispara una ráfaga de lágrimas.","t"],[472,"King Baby",0,"familiar","Tus otros familiares lo siguen y disparan solos.","s"],[473,"Big Chubby",0,"familiar","Embiste muy lento y bloquea disparos.","t"],[474,"Broken Glass Cannon",1,"daño","Usarlo lo vuelve a convertir en Glass Cannon.",""],[475,"Plan C",1,"daño","Mata a todos los enemigos, pero tú mueres después.","sdu"],[476,"D1",1,"utilidad","Duplica un recogible de la sala.","t"],[477,"Void",1,"utilidad","Absorbe los ítems de la sala y obtiene sus efectos.","da"],[478,"Pause",1,"utilidad","Congela a los enemigos hasta que dispares.","t"],[479,"Smelter",1,"utilidad","Absorbe tus trinkets para siempre.","s"],[480,"Compost",1,"familiar","Convierte recogibles en moscas o arañas aliadas.","s"],[481,"Dataminer",1,"utilidad","Cambia tus estadísticas y lágrimas al azar en la sala.","tu"],[482,"Clicker",1,"utilidad","Te cambia a otro personaje al azar.","t"],[483,"Mama Mega!",1,"daño","Explota toda la sala y daña a todos los enemigos.","s"],[484,"Wait What?",1,"utilidad","Empuja enemigos y crea una ola de rocas.",""],[485,"Crooked Penny",1,"utilidad","50% de duplicar todo en la sala; si no, lo pierdes.","ts"],[486,"Dull Razor",1,"utilidad","Finge que te dañan para activar tus efectos.","s"],[487,"Potato Peeler",1,"utilidad","Cambia un contenedor de corazón por daño y carne.","s"],[488,"Metronome",1,"utilidad","Te da el efecto de un ítem al azar en la sala.","t"],[489,"D Infinity",1,"utilidad","Puede funcionar como cualquier otro dado.","x"],[490,"Eden's Soul",1,"utilidad","Te da 2 ítems al azar.","a"],[491,"Acid Baby",0,"familiar","Te da píldoras y envenena al usarlas.","t"],[492,"YO LISTEN!",0,"utilidad","+1 suerte y te muestra secretos de la sala.","t"],[493,"Adrenaline",0,"daño","Más daño por cada contenedor de corazón vacío.","t"],[494,"Jacob's Ladder",0,"lágrimas","Tus lágrimas sueltan rayos eléctricos.","t"],[495,"Ghost Pepper",0,"lágrimas","A veces disparas fuego azul que bloquea disparos.","t"],[496,"Euthanasia",0,"lágrimas","A veces disparas agujas que matan al instante.","t"],[497,"Camo Undies",0,"utilidad","Al entrar a una sala te camuflas y confundes enemigos.","t"],[498,"Duality",0,"utilidad","Aparecen salas del Diablo y del Ángel a la vez.","da"],[499,"Eucharist",0,"utilidad","Siempre aparece una sala del Ángel.","a"],[500,"Sack of Sacks",0,"familiar","Te da un saco cada pocas salas.","x"],[501,"Greed's Gullet",0,"defensa","Más contenedores de corazón con muchas monedas.","x"],[502,"Large Zit",0,"lágrimas","A veces disparas mocos que hacen doble daño y ralentizan.","t"],[503,"Little Horn",0,"lágrimas","A veces invocas una mano que mata enemigos.","d"],[504,"Brown Nugget",1,"familiar","Crea una mosca que dispara a los enemigos.","t"],[505,"Poke Go",0,"familiar","A veces aparece un enemigo amigo al entrar.","s"],[506,"Backstabber",0,"daño","Golpear por la espalda hace doble daño y sangrado.","tdu"],[507,"Sharp Straw",1,"daño","Daña a todos según su vida y a veces da corazones.","t"],[508,"Mom's Razor",0,"familiar","Una navaja que gira y hace sangrar.","t"],[509,"Bloodshot Eye",0,"familiar","Un ojo que gira y dispara a los enemigos cercanos.","t"],[510,"Delirious",1,"familiar","Invoca a un jefe aliado durante la sala.","a"],[511,"Angry Fly",0,"familiar","Una mosca enojada gira alrededor de un enemigo.","tu"],[512,"Black Hole",1,"daño","Lanzas un agujero negro que absorbe todo.","t"],[513,"Bozo",0,"utilidad","Un corazón de alma; encanta o asusta al azar.","t"],[514,"Broken Modem",0,"utilidad","Pausa a enemigos y disparos; a veces premios dobles.","s"],[515,"Mystery Gift",1,"utilidad","Te da un ítem al azar (¡o un regalo malo!).","s"],[516,"Sprinkler",1,"familiar","Un aspersor que dispara tus lágrimas en círculo.","t"],[517,"Fast Bombs",0,"daño","Puedes poner bombas muy rápido, una tras otra.","t"],[518,"Buddy in a Box",0,"familiar","Un bebé con efectos de lágrima al azar.","s"],[519,"Lil Delirium",0,"familiar","Se transforma en otro familiar cada 10 segundos.","da"],[520,"Jumper Cables",0,"utilidad","Matar enemigos carga tu ítem activo.","s"],[521,"Coupon",1,"utilidad","Hace gratis un objeto de la tienda o del Diablo.","s"],[522,"Telekinesis",1,"defensa","Detiene los disparos cercanos y los devuelve.","t"],[523,"Moving Box",1,"utilidad","Guarda objetos para llevarlos a otra sala.","s"],[524,"Technology Zero",0,"lágrimas","Tus lágrimas se unen con rayos eléctricos.","t"],[525,"Leprosy",0,"defensa","Al recibir daño, ganas escudos que giran a tu lado.","t"],[526,"7 Seals",0,"familiar","Un jinete pequeño que suelta langostas.","da"],[527,"Mr. ME!",1,"utilidad","Un fantasma abre cofres, trae objetos o roba.","s"],[528,"Angelic Prism",0,"familiar","Un prisma que divide tus lágrimas en 4.","a"],[529,"Pop!",0,"lágrimas","Tus lágrimas rebotan entre ellas como burbujas.","t"],[530,"Death's List",0,"utilidad","Matar en el orden marcado te da premios.","d"],[531,"Haemolacria",0,"lágrimas","Disparas lágrimas que explotan en más lágrimas.","tu"],[532,"Lachryphagy",0,"lágrimas","Tus lágrimas se frenan y explotan en lágrimas pequeñas.","t"],[533,"Trisagion",0,"lágrimas","Disparas rayos de luz que atraviesan.","a"],[534,"Schoolbag",0,"utilidad","Puedes llevar 2 ítems activos.","s"],[535,"Blanket",0,"defensa","Te cura y te protege del primer golpe en los jefes.","s"],[536,"Sacrificial Altar",1,"utilidad","Sacrifica familiares a cambio de ítems del Diablo.","d"],[537,"Lil Spewer",0,"familiar","Dispara charcos que cambian según tus píldoras.","t"],[538,"Marbles",0,"utilidad","Te da 3 trinkets y a veces los absorbe.","b"],[539,"Mystery Egg",0,"familiar","Al recibir daño, aparece un enemigo amigo.","t"],[540,"Flat Stone",0,"lágrimas","Tus lágrimas rebotan en el suelo y salpican.","t"],[541,"Marrow",0,"defensa","3 corazones rojos y un corazón de hueso.","bu"],[542,"Slipped Rib",0,"familiar","Una costilla que gira y refleja disparos.","t"],[543,"Hallowed Ground",0,"familiar","Al recibir daño, aparece una caca que te potencia.","ta"],[544,"Pointy Rib",0,"familiar","Una costilla flota frente a ti y daña.","t"],[545,"Book of the Dead",1,"familiar","Los enemigos muertos se vuelven huesos aliados.","td"],[546,"Dad's Ring",0,"utilidad","Un aura que petrifica a los enemigos.","x"],[547,"Divorce Papers",0,"defensa","Más cadencia, un corazón de hueso y un trinket.","b"],[548,"Jaw Bone",0,"familiar","Una mandíbula que lanzas como bumerán.","t"],[549,"Brittle Bones",0,"defensa","Tus corazones se vuelven de hueso; al romperse, disparas más rápido.","t"],[550,"Broken Shovel",1,"utilidad","Detiene el pie de Mamá durante la sala.",""],[551,"Broken Shovel",0,"utilidad","Completa la Pala de Mamá.",""],[552,"Mom's Shovel",1,"utilidad","Abre una trampilla al siguiente piso.",""],[553,"Mucormycosis",0,"lágrimas","A veces disparas esporas que explotan y envenenan.","t"],[554,"2Spooky",0,"defensa","Asustas a los enemigos que se te acercan.","du"],[555,"Golden Razor",1,"daño","Pagas monedas para ganar daño en la sala.","t"],[556,"Sulfur",1,"lágrimas","Te da Brimstone durante la sala.","du"],[557,"Fortune Cookie",1,"utilidad","Te da una fortuna o un premio pequeño.","t"],[558,"Eye Sore",0,"lágrimas","A veces disparas lágrimas extra al azar.","t"],[559,"120 Volt",0,"daño","Electrocuta a los enemigos cercanos.","t"],[560,"It Hurts",0,"lágrimas","Al recibir daño, disparas más rápido en la sala.","t"],[561,"Almond Milk",0,"lágrimas","Disparas muy rápido, pero cada lágrima hace menos daño.","t"],[562,"Rock Bottom",0,"utilidad","Tus estadísticas ya no pueden bajar, solo subir.","x"],[563,"Nancy Bombs",0,"daño","Tus bombas explotan con efectos al azar.","t"],[564,"A Bar of Soap",0,"lágrimas","Más cadencia y velocidad de disparo.","b"],[565,"Blood Puppy",0,"familiar","Un perrito que crece al matar, pero puede atacarte.","tu"],[566,"Dream Catcher",0,"defensa","Medio corazón de alma por piso y revela secretos.","s"],[567,"Paschal Candle",0,"lágrimas","Limpiar salas sin daño sube tu cadencia.","a"],[568,"Divine Intervention",0,"defensa","Toca dos veces disparar para crear un escudo.","a"],[569,"Blood Oath",0,"daño","Te quita corazones rojos por piso a cambio de daño.","d"],[570,"Playdough Cookie",0,"lágrimas","Cada lágrima tiene un color y efecto distinto.","t"],[571,"Orphan Socks",0,"defensa","2 corazones de alma e inmune a pinchos y charcos.","x"],[572,"Eye of the Occult",0,"lágrimas","Controlas tus lágrimas mientras vuelan.","du"],[573,"Immaculate Heart",0,"daño","Más vida, más daño y orbes que disparan.","au"],[574,"Monstrance",0,"daño","Un aura que daña más a los enemigos cercanos.","a"],[575,"The Intruder",0,"familiar","Una araña en tu cabeza dispara lágrimas extra.","t"],[576,"Dirty Mind",0,"familiar","Las cacas se vuelven aliadas.","t"],[577,"Damocles",1,"utilidad","Duplica los ítems, pero una espada puede matarte.","d"],[578,"Free Lemonade",1,"daño","Crea un gran charco que daña a los enemigos.","t"],[579,"Spirit Sword",0,"lágrimas","Atacas con una espada; al cargarla haces un giro poderoso.","a"],[580,"Red Key",1,"utilidad","Crea salas rojas nuevas junto a otras.","xu"],[581,"Psy Fly",0,"familiar","Una mosca que bloquea disparos enemigos.","t"],[582,"Wavy Cap",1,"lágrimas","Más cadencia, pero distorsiona la pantalla.","x"],[583,"Rocket in a Jar",0,"daño","Poner bombas mientras disparas lanza cohetes.","t"],[584,"Book of Virtues",1,"familiar","Crea fuegos fatuos que disparan; mejora otros libros.","a"],[585,"Alabaster Box",1,"utilidad","Juntas corazones de alma para abrirla y da premios.","s"],[586,"The Stairway",0,"utilidad","Una escalera en cada piso lleva a una tienda del Ángel.","a"],[588,"Sol",0,"daño","Muestra la sala del jefe y da mucho daño al vencerlo.","p"],[589,"Luna",0,"utilidad","Añade salas secretas con un rayo de luz que potencia.","p"],[590,"Mercurius",0,"utilidad","Más velocidad y las puertas quedan abiertas.","p"],[591,"Venus",0,"defensa","Más vida, te cura y encanta a los enemigos cercanos.","p"],[592,"Terra",0,"lágrimas","Disparas rocas que rompen obstáculos.","p"],[593,"Mars",0,"daño","Toca dos veces una dirección para embestir siendo invencible.","p"],[594,"Jupiter",0,"defensa","2 contenedores vacíos; quedarte quieto te llena de gases.","p"],[595,"Saturnus",0,"defensa","Al entrar a una sala, 7 lágrimas giran a tu alrededor.","p"],[596,"Uranus",0,"lágrimas","Tus lágrimas congelan a los enemigos al morir.","p"],[597,"Neptunus",0,"lágrimas","Si no disparas, acumulas una ráfaga de lágrimas extra.","p"],[598,"Pluto",0,"utilidad","Más cadencia y te encoges muchísimo.","p"],[599,"Voodoo Head",0,"utilidad","Más salas malditas, y con mejores premios.","s"],[600,"Eye Drops",0,"lágrimas","El ojo izquierdo dispara más rápido.","b"],[601,"Act of Contrition",0,"defensa","Más cadencia, un corazón eterno y salas del Ángel tras tratos.","a"],[602,"Member Card",0,"utilidad","Abre una tienda subterránea en cada tienda.","s"],[603,"Battery Pack",0,"utilidad","Te da baterías y recarga tu ítem activo.","s"],[604,"Mom's Bracelet",1,"utilidad","Puedes levantar y lanzar rocas, TNT y cacas.","s"],[605,"The Scooper",1,"familiar","Te sacas un ojo que deja un rastro y daña.","t"],[606,"Ocular Rift",0,"lágrimas","A veces tus lágrimas abren grietas que atraen enemigos.","du"],[607,"Boiled Baby",0,"familiar","Dispara ráfagas de lágrimas en todas direcciones.","tu"],[608,"Freezer Baby",0,"familiar","Dispara lágrimas que congelan a los enemigos.","t"],[609,"Eternal D6",1,"utilidad","Cambia los ítems de la sala, pero a veces los borra.","tx"],[610,"Bird Cage",0,"familiar","Un pájaro cae sobre el primer enemigo que te daña.","t"],[611,"Larynx",1,"daño","Gritas y empujas y dañas a los enemigos cercanos.","t"],[612,"Lost Soul",0,"familiar","Un alma frágil; si llega viva al siguiente piso, te premia.","tx"],[614,"Blood Bombs",0,"defensa","Más vida, te cura y puedes poner bombas con vida.","tu"],[615,"Lil Dumpy",0,"defensa","Desvía un golpe que ibas a recibir.","t"],[616,"Bird's Eye",0,"lágrimas","A veces disparas fuego rojo que bloquea disparos.","tu"],[617,"Lodestone",0,"lágrimas","A veces tus lágrimas magnetizan a los enemigos.","t"],[618,"Rotten Tomato",0,"lágrimas","A veces marcas enemigos para que otros los ataquen.","tu"],[619,"Birthright",0,"utilidad","Tiene un efecto distinto para cada personaje.","s"],[621,"Red Stew",0,"daño","Muchísimo daño que va bajando en 3 minutos.","su"],[622,"Genesis",1,"utilidad","Te quita tus ítems y te lleva a una sala donde eliges ítems nuevos.","a"],[623,"Sharp Key",1,"daño","Lanzas llaves que dañan y abren puertas.","s"],[624,"Booster Pack",0,"utilidad","Te da 5 cartas.","sb"],[625,"Mega Mush",0,"daño","Te vuelves gigante con muchísimo daño por un tiempo.","tx"],[626,"Knife Piece 1",0,"utilidad","Junta las dos partes para formar un cuchillo especial.",""],[627,"Knife Piece 2",0,"utilidad","Junta las dos partes para formar un cuchillo especial.",""],[628,"Death Certificate",0,"utilidad","Te lleva a un piso con todos los ítems del juego.","x"],[629,"Bot Fly",0,"familiar","Una mosca que destruye disparos enemigos.","t"],[631,"Meat Cleaver",1,"utilidad","Divide a los enemigos en dos más débiles.","t"],[632,"Evil Charm",0,"utilidad","+2 suerte e inmune a quemaduras, miedo y veneno.","x"],[633,"Dogma",0,"daño","Más daño, vuelo y un escudo de un golpe.",""],[634,"Purgatory",0,"daño","Grietas rojas en el suelo invocan fantasmas explosivos.","da"],[635,"Stitches",1,"familiar","Un familiar con el que intercambias lugar.","t"],[636,"R Key",1,"utilidad","Reinicia la partida desde el primer piso, pero conservas tus ítems.","x"],[637,"Knockout Drops",0,"lágrimas","A veces disparas un puño que confunde y empuja.","tu"],[638,"Eraser",1,"daño","Lanzas un borrador que elimina a un enemigo para siempre.","s"],[639,"Yuck Heart",1,"defensa","Te da un corazón podrido.","t"],[640,"Urn of Souls",1,"daño","Lanza llamas; matar enemigos la carga.","a"],[641,"Akeldama",0,"lágrimas","Al recibir daño, dejas una cadena de lágrimas.","t"],[642,"Magic Skin",1,"utilidad","Te da un ítem a cambio de un corazón roto.","s"],[643,"Revelation",0,"lágrimas","Te da vuelo, corazones de alma y un rayo de luz que se carga.","a"],[644,"Consolation Prize",0,"utilidad","Sube tu peor estadística y te da recursos.","b"],[645,"Tinytoma",0,"familiar","Un orbital que bloquea disparos y se divide.","t"],[646,"Brimstone Bombs",0,"daño","Tus bombas sueltan rayos de sangre en 4 direcciones.","d"],[647,"4.5 Volt",0,"utilidad","Tu ítem activo se carga haciendo daño.","s"],[649,"Fruity Plum",0,"familiar","Una ciruela que vuela disparando lágrimas.","t"],[650,"Plum Flute",1,"familiar","Invoca a Baby Plum como aliada un rato.","tu"],[651,"Star of Bethlehem",0,"daño","Una estrella viaja al jefe; a su lado ganas poder.","a"],[652,"Cube Baby",0,"familiar","Un cubo que pateas y congela enemigos.","t"],[653,"Vade Retro",1,"daño","Los enemigos dejan fantasmas que puedes explotar.","a"],[654,"False PHD",0,"utilidad","Un corazón negro; las píldoras malas te dan ventajas.","du"],[655,"Spin to Win",1,"defensa","Una bola gira y bloquea; al usarlo corres más.","t"],[656,"Damocles",0,"utilidad","Versión pasiva de Damocles: la espada sigue duplicando ítems, pero puede caerte.",""],[657,"Vasculitis",0,"lágrimas","Los enemigos explotan en lágrimas al morir.","tu"],[658,"Giant Cell",0,"familiar","Al recibir daño, aparecen mini Isaacs que disparan.","t"],[659,"Tropicamide",0,"lágrimas","Más alcance y lágrimas más grandes.","b"],[660,"Card Reading",0,"utilidad","Portales en cada piso llevan a salas importantes.","s"],[661,"Quints",0,"familiar","Los enemigos muertos dejan familiares quietos.","t"],[663,"Tooth and Nail",0,"defensa","Cada 6 segundos eres invencible por un momento.","t"],[664,"Binge Eater",0,"defensa","Más vida y algunos ítems cambian por comida que sube stats.","x"],[665,"Guppy's Eye",0,"utilidad","Ves el contenido de cofres y sacos antes de abrirlos.","d"],[667,"Strawman",0,"familiar","Invoca a Keeper como segundo personaje.","x"],[668,"Dad's Note",0,"utilidad","Comienza el Ascenso, un camino especial de vuelta.",""],[669,"Sausage",0,"defensa","Sube un poco todas tus estadísticas.","x"],[670,"Options?",0,"utilidad","Eliges entre 2 premios al limpiar salas.","s"],[671,"Candy Heart",0,"defensa","Curarte con corazones rojos sube tus estadísticas.","tu"],[672,"A Pound of Flesh",0,"utilidad","Los tratos del Diablo cuestan monedas y la tienda, corazones.","d"],[673,"Redemption",0,"daño","Rechazar tratos del Diablo te da daño y corazones.",""],[674,"Spirit Shackles",0,"defensa","Al morir, sigues peleando como fantasma.","x"],[675,"Cracked Orb",0,"utilidad","Al recibir daño, abre puertas y revela salas.","tx"],[676,"Empty Heart",0,"defensa","Si estás con poca vida, ganas contenedores al pasar de piso.","t"],[677,"Astral Projection",0,"defensa","Al recibir daño, vuelas y tus lágrimas atraviesan todo.","tx"],[678,"C Section",0,"lágrimas","Disparas pequeños fetos que persiguen a los enemigos.","tu"],[679,"Lil Abaddon",0,"familiar","Carga y suelta un anillo negro que daña.","d"],[680,"Montezuma's Revenge",0,"lágrimas","Disparar carga un rayo corto hacia atrás.","t"],[681,"Lil Portal",0,"familiar","Un portal que come recogibles y crece.","t"],[682,"Worm Friend",0,"familiar","Un gusano sale del suelo y agarra enemigos.","tu"],[683,"Bone Spurs",0,"defensa","Los enemigos dejan huesos que bloquean disparos.","t"],[684,"Hungry Soul",0,"familiar","Matar enemigos a veces crea fantasmas que explotan.","du"],[685,"Jar of Wisps",1,"familiar","Crea fuegos fatuos; cada uso crea más.","a"],[686,"Soul Locket",0,"defensa","Juntar corazones de alma sube tus estadísticas.","a"],[687,"Friend Finder",1,"familiar","Crea un monstruo aliado que te imita.","t"],[688,"Inner Child",0,"defensa","Una vida extra: revives en la misma sala.","x"],[689,"Glitched Crown",0,"utilidad","Los ítems de pedestal van cambiando entre varias opciones: tomas el que salga.","x"],[690,"Belly Jelly",0,"defensa","Los enemigos rebotan en ti y a veces no te dañan.","t"],[691,"Sacred Orb",0,"utilidad","Hace que no aparezcan ítems de baja calidad.","ax"],[692,"Sanguine Bond",0,"utilidad","Unos pinchos en la sala del Diablo dan premios al azar.","du"],[693,"The Swarm",0,"familiar","8 moscas giran a tu alrededor y bloquean disparos.","t"],[694,"Heartbreak",0,"daño","Corazones rotos que te dan daño.","du"],[695,"Bloody Gust",0,"utilidad","Al recibir daño, ganas velocidad y cadencia en el piso.","tdu"],[696,"Salvation",0,"daño","Un halo que llama rayos de luz sobre los enemigos.","a"],[697,"Vanishing Twin",0,"utilidad","Los jefes tienen un clon que da un ítem extra.","x"],[698,"Twisted Pair",0,"familiar","Dos gemelos que disparan igual que tú.","d"],[699,"Azazel's Rage",0,"daño","Tras limpiar 4 salas, disparas un Brimstone gigante.","d"],[700,"Echo Chamber",0,"utilidad","Al usar cartas o píldoras, repites las anteriores.","xu"],[701,"Isaac's Tomb",0,"utilidad","Un cofre viejo aparece en cada piso.","x"],[702,"Vengeful Spirit",1,"familiar","Al recibir daño, ganas fuegos fatuos que disparan.","du"],[703,"Esau Jr.",1,"utilidad","Te cambias por Esau Jr., otro personaje.","txu"],[704,"Berserk!",1,"daño","Te vuelves loco con mucho daño y cuerpo a cuerpo.","du"],[705,"Dark Arts",1,"daño","Atraviesas enemigos y los dañas a todos juntos.","du"],[706,"Abyss",1,"daño","Se traga los ítems de la sala y te da langostas que atacan por ti.","du"],[707,"Supper",0,"defensa","+1 contenedor de corazón y cura un corazón.","b"],[708,"Stapler",0,"lágrimas","+1 de daño y disparas solo por un ojo.","b"],[709,"Suplex!",1,"daño","Embistes, levantas enemigos y los azotas contra el suelo.","t"],[710,"Bag of Crafting",1,"utilidad","Juntas 8 recogibles en la bolsa y los combinas para crear un ítem.","t"],[711,"Flip",1,"utilidad","Cambia entre el ítem real y uno fantasma.","xu"],[712,"Lemegeton",1,"familiar","Crea fuegos fatuos con efectos de ítems al azar.","d"],[713,"Sumptorium",1,"familiar","Conviertes vida en coágulos que disparan.","t"],[714,"Recall",1,"utilidad","Exclusivo de The Forgotten contaminado: trae de vuelta su cuerpo desde lejos.",""],[715,"Hold",1,"utilidad","Exclusivo de ??? contaminado: guarda una caca para usarla después.",""],[716,"Keeper's Sack",0,"utilidad","Gastar monedas sube tus estadísticas.","sx"],[717,"Keeper's Kin",0,"familiar","Romper rocas suelta arañas azules.","tx"],[719,"Keeper's Box",1,"utilidad","Saca un objeto de la tienda para comprar.","sx"],[720,"Everything Jar",1,"utilidad","Da recogibles según su carga.","t"],[721,"TMTRAINER",0,"utilidad","Todos los ítems futuros salen con efectos locos al azar.","x"],[722,"Anima Sola",1,"utilidad","Encadena a un enemigo para que no se mueva.","t"],[723,"Spindown Dice",1,"utilidad","Cambia los ítems de la sala por el ítem de número anterior.","tx"],[724,"Hypercoagulation",0,"defensa","Al recibir daño, sueltas corazones que puedes recoger.","tu"],[725,"IBS",0,"daño","Tras hacer daño, lanzas una caca o charco especial.","t"],[726,"Hemoptysis",0,"daño","Toca dos veces disparar para estornudar sangre.","tu"],[727,"Ghost Bombs",0,"daño","Tus bombas sueltan fantasmas que persiguen enemigos.","t"],[728,"Gello",1,"familiar","Un demonio sale de ti y dispara como tú.","tdu"],[729,"Decap Attack",1,"daño","Lanzas tu cabeza, que daña y dispara desde lejos.","t"],[730,"Glass Eye",0,"daño","Más daño y +1 suerte.","b"],[731,"Stye",0,"lágrimas","Más daño y alcance en el ojo derecho.","b"],[732,"Mom's Ring",0,"daño","+1 de daño y una runa o piedra de alma.",""]];
+    const iconos = { "daño": "⚔️", "lágrimas": "💧", "defensa": "🛡️", "utilidad": "🔧", "familiar": "🐾" };
+    // Ítems que existen en el juego pero no aparecen en la página de colección
+    const OCULTOS = [59, 656, 714, 715];
+    const items = DATA.map(([id, nombre, act, cat, desc, salas]) => ({
+      id, nombre, cat, desc, salas, tipo: act ? "activo" : "pasivo", rep: id >= 553, oculto: OCULTOS.includes(id)
+    }));
+
+    const grid = document.getElementById("grid");
+    const search = document.getElementById("search");
+    const count = document.getElementById("count");
+    const empty = document.getElementById("empty");
+    let filtro = "todos";
+    let pestaña = "coleccion";
+    const infoPestaña = {
+      coleccion: "Los 717 ítems de la página de colección del juego, en su orden original. Filtra por tipo o por la sala donde aparecen.",
+      fuera: "Ítems que existen en el juego pero no aparecen en la página de colección."
+    };
+
+    const quitarTildes = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    items.forEach(it => it.texto = quitarTildes(it.nombre + " " + it.desc + " #" + it.id));
+
+    function render() {
+      const q = quitarTildes(search.value.trim());
+      const qNum = q.replace("#", "");
+      const lista = items.filter(it => {
+        const coincideTexto = !q || it.texto.includes(q) || String(it.id) === qNum;
+        const coincideFiltro = filtro === "todos" || filtro === "fuera" || it.cat === filtro || it.tipo === filtro || (filtro.length === 1 && it.salas.includes(filtro));
+        const coincidePestaña = filtro === "fuera" ? it.oculto : !it.oculto;
+        return coincideTexto && coincideFiltro && coincidePestaña;
+      });
+      grid.innerHTML = lista.map(it => `
+        <article class="card">
+          <div class="card-top">
+            <span class="icon">${iconos[it.cat]}</span>
+            <span class="id">#${it.id}</span>
+          </div>
+          <h3>${it.nombre}</h3>
+          <p>${it.desc}</p>
+          <div class="badges">
+            <span class="badge ${it.tipo}">${it.tipo}</span>
+            <span class="badge">${it.cat}</span>
+            ${it.rep ? '<span class="badge rep">nuevo en Repentance</span>' : ''}
+            ${it.oculto ? '<span class="badge oculto">fuera de la colección</span>' : ''}
+          </div>
+        </article>`).join("");
+      const total = items.filter(it => filtro === "fuera" ? it.oculto : !it.oculto).length;
+      count.textContent = `${lista.length} de ${total} ítems`;
+      document.getElementById("tab-info").textContent = filtro === "fuera" ? infoPestaña.fuera : infoPestaña.coleccion;
+      empty.style.display = lista.length ? "none" : "block";
+    }
+
+    document.getElementById("tabs").addEventListener("click", e => {
+      const btn = e.target.closest(".tab");
+      if (!btn) return;
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      btn.classList.add("active");
+      pestaña = btn.dataset.tab;
+      render();
+    });
+    search.addEventListener("input", render);
+    document.getElementById("chips").addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      filtro = btn.dataset.filter;
+      render();
+    });
+    render();
+  </script>
 </body>
 </html>
