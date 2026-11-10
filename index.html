@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Octavio — aprendiendo a programar con IA</title>
+  <meta name="description" content="Página personal de Octavio: aprendiendo programación con IA y construyendo cosas." />
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --surface: #141823;
+      --border: #232838;
+      --text: #e8ebf2;
+      --muted: #9aa3b8;
+      --accent: #7cf5c4;
+      --accent-2: #8b7cff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(139,124,255,0.18), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(124,245,196,0.12), transparent 40%);
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 96px 24px 64px; }
+    .tag {
+      display: inline-block;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+    }
+    .tag::before { content: "● "; animation: blink 1.6s infinite; }
+    @keyframes blink { 50% { opacity: 0.2; } }
+    h1 {
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+      background: linear-gradient(120deg, var(--text) 30%, var(--accent-2) 70%, var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .bio {
+      margin-top: 24px;
+      font-size: 1.25rem;
+      color: var(--muted);
+      max-width: 34ch;
+    }
+    .bio strong { color: var(--text); font-weight: 600; }
+    section { margin-top: 88px; }
+    h2 {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 24px;
+    }
+    h2 span { color: var(--accent); }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent-2); }
+    .emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+    .card h3 { font-size: 1.1rem; margin-bottom: 6px; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+    .status {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.75rem;
+      color: var(--accent-2);
+    }
+    footer {
+      margin-top: 96px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="tag">aprendiendo en público</div>
+    <h1>Hola, soy Octavio.</h1>
+    <p class="bio">
+      Tengo 17 años y estoy aprendiendo a <strong>programar con IA</strong>:
+      cada día escribo un poco más de código y entiendo un poco mejor cómo funciona.
+    </p>
+
+    <section>
+      <h2><span>&gt;</span> Lo que voy a construir</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="emoji">🌐</span>
+          <h3>Esta página</h3>
+          <p>Mi primer sitio, que iré mejorando a medida que aprenda HTML, CSS y JavaScript.</p>
+          <span class="status">// en progreso</span>
+        </article>
+        <article class="card">
+          <span class="emoji">🤖</span>
+          <h3>Un asistente propio</h3>
+          <p>Un chatbot pequeño que responda preguntas sobre algo que me guste.</p>
+          <span class="status">// próximamente</span>
+        </article>
+        <article class="card">
+          <span class="emoji">🎮</span>
+          <h3>Un juego en el navegador</h3>
+          <p>Algo simple y divertido para practicar lógica y animaciones.</p>
+          <span class="status">// próximamente</span>
+        </article>
+      </div>
+    </section>
+
+    <footer>hecho por Octavio · 2026</footer>
+  </main>
+</body>
+</html>
