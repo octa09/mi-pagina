@@ -188,6 +188,9 @@
     .card { color: var(--text); }
     .chip { background: var(--surface); }
     .card-ancha { grid-column: 1 / -1; }
+    .sub-chips { width: 100%; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .sub-chips .chip { font-size: 0.85rem; padding: 6px 12px; }
+    [hidden] { display: none !important; }
     .empty { display: none; text-align: center; color: var(--on-bg-muted); padding: 48px 0; }
 
     footer {
@@ -211,12 +214,13 @@
     <p class="intro">
       Una guía para descubrir qué hace cada ítem de <strong>The Binding of Isaac: Repentance</strong>.
       Aquí están los <strong>717 ítems de la colección</strong> (y 4 extra que no salen en ella), explicados de forma simple.
-      Busca por nombre, efecto o número, o filtra por tipo o por la sala donde aparecen. También puedes ver todos los personajes.
+      Busca por nombre, efecto o número, o filtra por tipo o por la sala donde aparecen. También puedes ver todos los personajes y los jefes de cada piso.
     </p>
 
     <nav class="tabs" id="tabs">
       <button class="tab active" data-tab="coleccion">Objetos <span>717</span></button>
       <button class="tab" data-tab="personajes">Personajes <span>34</span></button>
+      <button class="tab" data-tab="jefes">Jefes</button>
     </nav>
 
     <section id="sec-objetos">
@@ -243,6 +247,19 @@
     <div class="count" id="count"></div>
     <div class="grid" id="grid"></div>
     <div class="empty" id="empty">No encontré ese ítem 😢 Prueba con otro nombre.</div>
+    </section>
+
+    <section id="sec-jefes" hidden>
+      <p class="tab-info" id="info-jefes">Los jefes que pueden aparecer en cada piso. Los pisos de un mismo capítulo comparten la misma lista.</p>
+      <div class="controls">
+        <div class="chips" id="modo-jefes">
+          <button class="chip active" data-modo="pisos">Pisos</button>
+          <button class="chip" data-modo="desbloqueo">Cómo desbloquearlos</button>
+        </div>
+        <div class="chips sub-chips" id="chips-jefes"></div>
+      </div>
+      <div class="count" id="count-jefes"></div>
+      <div class="grid" id="grid-jefes"></div>
     </section>
 
     <section id="sec-personajes" hidden>
@@ -326,6 +343,7 @@
       pestaña = btn.dataset.tab;
       document.getElementById("sec-objetos").hidden = pestaña !== "coleccion";
       document.getElementById("sec-personajes").hidden = pestaña !== "personajes";
+      document.getElementById("sec-jefes").hidden = pestaña !== "jefes";
     });
 
     // ----- Personajes -----
@@ -375,6 +393,65 @@
       renderPj();
     });
     renderPj();
+
+    // ----- Jefes -----
+    // Cada piso: [nombre, capítulo, jefes]
+    const PISOS = [["Basement · Cellar · Burning Basement", "Capítulo 1", ["Monstro", "Gemini", "Steven", "Dingle", "Gurglings", "Larry Jr.", "The Duke of Flies", "Widow", "Blighted Ovum", "The Haunt", "Pin", "Famine", "The Fallen", "Headless Horseman", "Dangle", "Turdlings", "Little Horn", "Rag Man", "Baby Plum"]], ["Downpour", "Capítulo 1 alternativo", ["Lil Blub", "Wormwood", "The Rainmaker", "Min-Min"]], ["Dross", "Capítulo 1 alternativo", ["Lil Blub", "Wormwood", "Clog", "Colostomia", "Turdlet"]], ["Caves · Catacombs · Flooded Caves", "Capítulo 2", ["Fistula", "Chub", "C.H.A.D.", "Gurdy", "Mega Fatty", "Mega Maw", "Gurdy Jr.", "Peep", "The Husk", "The Hollow", "Carrion Queen", "Dark One", "Polycephalus", "The Wretched", "Pestilence", "The Fallen", "Headless Horseman", "The Stain", "The Frail", "The Forsaken", "Big Horn", "Rag Mega", "Bumbino"]], ["Mines · Ashpit", "Capítulo 2 alternativo", ["Reap Creep", "Tuff Twins", "Hornfel", "Great Gideon", "The Pile", "The Shell", "Singe", "Clutch"]], ["Depths · Necropolis · Dank Depths", "Capítulo 3", ["Monstro II", "Gish", "The Cage", "The Gate", "Loki", "The Adversary", "The Bloat", "Mask of Infamy", "War", "The Fallen", "Headless Horseman", "Brownie", "Sisters Vis", "Reap Creep", "The Pile", "Mom"]], ["Mausoleum · Gehenna", "Capítulo 3 alternativo", ["The Siren", "The Heretic", "The Visage", "The Horny Boys", "Mom", "Mom's Heart"]], ["Womb · Utero · Scarred Womb", "Capítulo 4", ["Blastocyst", "Mama Gurdy", "Scolex", "Mr. Fred", "Lokii", "The Bloat", "Daddy Long Legs", "Triachnid", "Teratoma", "Death", "Conquest", "The Fallen", "Headless Horseman", "The Matriarch", "Mom's Heart", "It Lives!"]], ["Corpse", "Capítulo 4 alternativo", ["Chimera", "The Scourge", "Rotgut", "Mother"]], ["??? (Blue Womb)", "Piso especial", ["Hush"]], ["Sheol · Cathedral", "Capítulo 5", ["Satan", "Isaac"]], ["Dark Room · The Chest", "Capítulo 6", ["The Lamb", "???", "Mega Satan"]], ["The Void", "Piso final", ["Delirium"]], ["Home", "Piso final", ["Dogma", "The Beast"]]];
+    const DESC_JEFES = {"Monstro": "Una masa enorme que salta sobre ti y escupe ráfagas de sangre.", "Gemini": "Dos gemelos unidos por un cordón: uno te persigue y el otro dispara.", "Steven": "Dos hermanos unidos: el pequeño dispara mientras el grande te persigue.", "Dingle": "Una caca gigante que embiste por la sala y escupe.", "Gurglings": "Dos o tres criaturas que embisten y dejan charcos.", "Larry Jr.": "Un gusano de varios segmentos que deja cacas a su paso.", "The Duke of Flies": "Una mosca gorda que suelta moscas y las lanza contra ti.", "Widow": "Una araña que salta por la sala y suelta arañitas.", "Blighted Ovum": "Un feto que se divide en dos al dañarlo.", "The Haunt": "Un fantasma protegido por fantasmitas que lo rodean.", "Pin": "Un gusano que sale del suelo para atacar.", "Famine": "El jinete del Hambre: vuela embistiendo y disparando.", "The Fallen": "Un ángel caído que dispara y se divide en dos.", "Headless Horseman": "Un jinete sin cabeza: el cuerpo y la cabeza atacan por separado.", "Dangle": "Una caca colgante parecida a Dingle.", "Turdlings": "Un grupo de cacas pequeñas que se mueven juntas.", "Little Horn": "Un pequeño demonio que pone bombas y crea agujeros.", "Rag Man": "Un hechicero envuelto en trapos que revive a sus aliados.", "Baby Plum": "Una bebé voladora que gira por la sala lanzando lágrimas.", "Lil Blub": "Flota en diagonal por la sala y escupe.", "Wormwood": "Un gusano que nada bajo el agua y sale a atacar.", "The Rainmaker": "Hace llover y llena la sala de agua.", "Min-Min": "Se vuelve invisible y aparece para atacarte.", "Clog": "Una caca grande que lanza cacas y gases.", "Colostomia": "Una caca enorme que embiste y escupe cacas.", "Turdlet": "Un gusano hecho de caca con varios segmentos.", "Fistula": "Una masa que se divide en partes más pequeñas al dañarla.", "Chub": "Un gusano gordo que embiste y puede tragarse tus bombas.", "C.H.A.D.": "Parecido a Chub, pero deja charcos rojos.", "Gurdy": "Una masa gigante que no se mueve e invoca enemigos.", "Mega Fatty": "Un gordo enorme que salta y escupe.", "Mega Maw": "Una boca flotante que dispara en varias direcciones.", "Gurdy Jr.": "Una versión pequeña de Gurdy que embiste.", "Peep": "Un ojo grande que dispara y puede soltar sus ojos.", "The Husk": "Una versión oscura y más fuerte de The Duke of Flies.", "The Hollow": "Un gusano de segmentos, más rápido que Larry Jr.", "Carrion Queen": "Un gusano rojo que deja cacas rojas a su paso.", "Dark One": "Una sombra que embiste y dispara.", "Polycephalus": "Varias cabezas que salen del suelo y disparan.", "The Wretched": "Una versión oscura de los gusanos que salen del suelo.", "Pestilence": "El jinete de la Peste: suelta veneno y gusanos.", "The Stain": "Una masa que sale del suelo y lanza tentáculos.", "The Frail": "Un gusano que sale del suelo y cambia de ataque en su segunda fase.", "The Forsaken": "Un hechicero que dispara y te rodea de ataques.", "Big Horn": "Una versión más grande de Little Horn que sale de agujeros.", "Rag Mega": "Una versión más fuerte de Rag Man.", "Bumbino": "Un jefe grande que embiste y golpea por la sala.", "Reap Creep": "Una araña gigante pegada a la pared que escupe ácido.", "Tuff Twins": "Dos criaturas de roca que embisten.", "Hornfel": "Una criatura rápida que corre por la sala y huye de ti.", "Great Gideon": "Una cabeza de piedra que lanza oleadas de ataques.", "The Pile": "Un montón de huesos que sale del suelo.", "The Shell": "Una versión más fuerte de las criaturas de roca.", "Singe": "Un jefe de fuego del Ashpit que lanza bombas.", "Clutch": "Un jefe del Ashpit rodeado de orbes que lo protegen.", "Monstro II": "Una versión más fuerte de Monstro.", "Gish": "Una masa negra que salta y deja charcos.", "The Cage": "Una masa enorme que rebota por la sala.", "The Gate": "Una boca que dispara rayos e invoca enemigos.", "Loki": "Un demonio que se teletransporta y dispara en varias direcciones.", "The Adversary": "Un demonio que dispara rayos de sangre.", "The Bloat": "Una cabeza que dispara rayos desde los ojos.", "Mask of Infamy": "Una máscara invencible: tienes que dañar al corazón que la acompaña.", "War": "El jinete de la Guerra: embiste y pone bombas.", "Brownie": "Una caca que embiste y lanza cacas.", "Sisters Vis": "Dos hermanas que ruedan por la sala y lanzan rayos.", "Mom": "La mamá de Isaac: pisa desde arriba y saca manos y enemigos por las puertas.", "The Siren": "Una criatura que canta y puede controlar a tus familiares.", "The Heretic": "Un hechicero que ataca con pentagramas.", "The Visage": "Una máscara encadenada a un corazón.", "The Horny Boys": "Dos demonios que pelean juntos.", "Mom's Heart": "El corazón gigante de Mamá: dispara y la llama para que ataque.", "Blastocyst": "Una masa que salta y se divide en partes más pequeñas.", "Mama Gurdy": "Una cabeza enorme que lanza púas desde el suelo.", "Scolex": "Un gusano que sale del suelo; solo su cola recibe daño.", "Mr. Fred": "Una criatura enorme que se esconde bajo tierra y escupe.", "Lokii": "Dos Loki que atacan al mismo tiempo.", "Daddy Long Legs": "Una araña gigante que pisa desde arriba.", "Triachnid": "Parecida a Daddy Long Legs, pero con tres patas.", "Teratoma": "Una masa que se divide en partes al dañarla.", "Death": "El jinete de la Muerte: ataca con su guadaña y ralentiza.", "Conquest": "El jinete de la Conquista: embiste y llama rayos de luz.", "The Matriarch": "Un jefe enorme del capítulo 4 añadido en Repentance.", "It Lives!": "La forma alternativa de Mom's Heart, más difícil.", "Chimera": "Un monstruo del Corpse que se separa en partes.", "The Scourge": "Una criatura del Corpse que embiste y dispara.", "Rotgut": "Un gusano que vive dentro del cadáver y pelea en varias fases.", "Mother": "La jefa final del Corpse.", "Hush": "El jefe final de ???: llena la sala de lágrimas.", "Satan": "El jefe final de Sheol: vuela y dispara rayos.", "Isaac": "El jefe final de la Cathedral: dispara lágrimas de luz.", "The Lamb": "El jefe final del Dark Room: su cabeza y su cuerpo atacan por separado.", "???": "El jefe final de The Chest.", "Mega Satan": "Un jefe opcional gigante detrás de una puerta dorada.", "Delirium": "El jefe final de The Void: se transforma en otros jefes.", "Dogma": "Uno de los jefes finales de Home, que aparece desde un televisor.", "The Beast": "El jefe final verdadero del juego, en Home."};
+    const FINALES = ["Mom", "Mom's Heart", "It Lives!", "Mother", "Hush", "Satan", "Isaac", "The Lamb", "???", "Mega Satan", "Delirium", "Dogma", "The Beast"];
+    let pisoActual = 0;
+    const chipsJefes = document.getElementById("chips-jefes");
+    chipsJefes.innerHTML = PISOS.map(([nombre], i) =>
+      `<button class="chip${i === 0 ? " active" : ""}" data-piso="${i}">${nombre}</button>`).join("");
+    const DESBLOQUEO_JEFES = [["Jefes del Womb (Mom's Heart y los demás)", "Vence a Mom por primera vez para desbloquear el Womb."], ["Jefes del Cellar", "Vence a todos los jefes que salen en el Basement (menos Baby Plum)."], ["Jefes de los Catacombs", "Vence a todos los jefes que salen en las Caves (menos Bumbino)."], ["Jefes de Necropolis", "Vence a todos los jefes que salen en las Depths."], ["Jefes del Burning Basement", "Vence a Mom's Heart 11 veces."], ["Steven", "Completa el Basement 40 veces."], ["C.H.A.D.", "Completa el capítulo 3 (Depths) 30 veces."], ["It Lives!, Satan e Isaac", "Vence a Mom's Heart 11 veces. Desde ahí aparece It Lives! y se abren Sheol (Satan) y la Cathedral (Isaac)."], ["??? (The Chest)", "Vence a Isaac 5 veces para que aparezca The Polaroid. Llévala y vuelve a vencer a Isaac para bajar a The Chest."], ["The Lamb (Dark Room)", "Vence a Satan 5 veces para que aparezca The Negative. Llévala y vuelve a vencer a Satan para bajar al Dark Room."], ["Mega Satan", "Completa el capítulo 6 (Dark Room o The Chest) para que aparezcan los ángeles. Consigue las dos piezas de llave que sueltan y abre la puerta dorada del inicio del piso."], ["Hush", "Vence a Mom's Heart 10 veces para desbloquear ??? (Blue Womb). Después, llega a su entrada a tiempo (antes de los 30 minutos)."], ["Delirium (The Void)", "Vence a Hush una vez."], ["Jefes de Downpour, Mines y Mausoleum", "Vence a Hush 3 veces para desbloquear las puertas del camino alternativo."], ["Jefes de Dross, Ashpit y Gehenna", "Vence a todos los jefes de Downpour, de las Mines o del Mausoleum, respectivamente."], ["Jefes del Corpse y Mother", "Consigue las dos piezas del cuchillo (en Downpour/Dross II y Mines/Ashpit II). Vence a Mom en Mausoleum/Gehenna II, abre la puerta de carne con el cuchillo, vence al Mom's Heart especial y baja al Corpse."], ["Dogma y The Beast (Home)", "Vence a Mother una vez. Así aparece una puerta extraña en Depths II que lleva a Dad's Note, el Ascenso y finalmente Home."]];
+    let modoJefes = "pisos";
+    function renderJefes() {
+      chipsJefes.hidden = modoJefes !== "pisos";
+      if (modoJefes === "desbloqueo") {
+        document.getElementById("info-jefes").textContent = "Qué tienes que hacer para que aparezca cada jefe. Los que no salen aquí están disponibles desde el inicio.";
+        document.getElementById("grid-jefes").innerHTML = DESBLOQUEO_JEFES.map(([quien, como]) => `
+          <article class="card">
+            <div class="card-top"><span class="icon">🔓</span></div>
+            <h3>${quien}</h3>
+            <p>${como}</p>
+          </article>`).join("");
+        document.getElementById("count-jefes").textContent = `${DESBLOQUEO_JEFES.length} desbloqueos`;
+        return;
+      }
+      document.getElementById("info-jefes").textContent = "Los jefes que pueden aparecer en cada piso. Los pisos de un mismo capítulo comparten la misma lista.";
+      const [nombre, capitulo, jefes] = PISOS[pisoActual];
+      document.getElementById("grid-jefes").innerHTML = jefes.map(j => {
+        const final = FINALES.includes(j);
+        return `
+        <article class="card">
+          <div class="card-top">
+            <span class="icon">${final ? "👑" : "💀"}</span>
+            <span class="id">${capitulo}</span>
+          </div>
+          <h3>${j}</h3>
+          <p>${DESC_JEFES[j] || ""}</p>
+          <div class="badges"><span class="badge">${final ? "jefe final" : "jefe"}</span></div>
+        </article>`;
+      }).join("");
+      document.getElementById("count-jefes").textContent = `${jefes.length} jefes en ${nombre}`;
+    }
+    chipsJefes.addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      chipsJefes.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      pisoActual = +btn.dataset.piso;
+      renderJefes();
+    });
+    document.getElementById("modo-jefes").addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      document.querySelectorAll("#modo-jefes .chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      modoJefes = btn.dataset.modo;
+      renderJefes();
+    });
+    renderJefes();
     search.addEventListener("input", render);
     document.getElementById("chips").addEventListener("click", e => {
       const btn = e.target.closest(".chip");
